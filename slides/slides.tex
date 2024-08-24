@@ -1,0 +1,397 @@
+#!/usr/bin/pdflatex \catcode35=14 \input
+\catcode`\#=6
+
+\documentclass{beamer}
+\usetheme{Warsaw}
+\usepackage{verbatim}
+
+\iffalse 
+Sections
+  Who we are, what is vicharak
+  Architectures of the next decade
+  Overview of Modern Household Compute
+  Deficiency of modern compute
+  Reconfigurable computing
+  Existing reconfigurable hardware (FPGA)
+  How to design a reconfigurable architecture (problems)
+  Problem 1 - Programming model of a recf computer
+  Programming model of a GPU
+  Our proposed programming model
+  Problem 2 - HDLs are hard
+  Intro to an FPGA 'compiler'
+  The need for reverse engineering
+  Our efforts to reverse engineer the FPGA
+  Projects done so far that'll take us towards recf computing
+  Gati - An ML accelerator
+  Periplex - A protocol multiplexor
+  Conclusion
+\fi
+
+\title{No-ISA Is The Best ISA}
+\subtitle{}
+\author{Shreeyash Pandey, Rishik Ram}
+\institute{Vicharak, India @ vicharak.in}
+\date{28th September, 2024}
+
+\usebackgroundtemplate%
+{%
+    \includegraphics[width=\paperwidth,height=\paperheight]{logo.eps}%
+}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{About us}
+
+\framesubtitle{}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Problems facing modern compute}
+\framesubtitle{Moores law is slowing down}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{mooreslaw.png}
+    \caption{From "A Golden Age of Computers - David Patterson"}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Problems facing modern compute}
+  \framesubtitle{Dennard Scaling has stopped working}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{dennardscaling.png}
+    \caption{From "A Golden Age of Computers - David Patterson"}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Problems facing modern compute}
+  \framesubtitle{}
+  \begin{enumerate}
+    \item The free lunch afforded by hardware improvements over years
+      is coming to an end
+    \item Hardwares are designed first and complying softwares to support
+      them after it.
+    \item New and creative architectures need to be designed along with the
+      softwares abstractions to use them. 
+  \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Overview of Modern Compute}
+\framesubtitle{}
+  \begin{enumerate}
+    \item An average motherboard has a CPU and optionally a GPU
+    \item In specialized domains, one may find ASICs being used (for eg, 
+      ML acceleration)
+    \item ASICs are pretty cool (and fast) and solve domain specific problems
+      that CPU/GPUs may not be able to solve, but are they for everyone?
+    \item For starters, they are expensive to engineer and require a team
+      of expert hardware engineers to be designed and fabricated
+    \item Once that's done, expert systems software engineers are required
+      to make the ASIC usable/compatible with the existing operating systems.
+    \item A lot of hardwork, definitely not for everyone.  As a result, ASICs are far and few
+    \item Should modern compute be restricted to CPUs/GPUs and a handful
+      of ASICs?
+    \item What about the problems where none of existing compute suffices?
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Hard-to-solve Problems for Modern Compute}
+  \framesubtitle{Example 1}
+  \textbf{Problems involving many peripherals as well as compute}
+
+  For example, \\
+
+  An embedded application that uses object detection to find
+  objects in a line of sight and responds to it by driving many motors in
+  real time needs heavy compute (for OD) and flexible IO to be able to 
+  drive all the motors reliably. \\
+
+  Existing solution would involve usign a GPU for ML workload, an
+  driving the motors from a CPU. A CPU may or may not have as many IOs
+  as required, in which case an IO expander may have to be set up.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Hard-to-solve Problems for Modern Compute}
+  \framesubtitle{Example 2}
+  \textbf{Unusual Representation of Numbers}
+
+  Quantization is a technique of reducing precision of numbers at the loss of
+  accuracy. Quantization is used extensively to speed up Neural Network
+  inference. New techniques such as heterogenous quantization of layers (i.e.
+  different bit-widths of numbers at layer granularity), odd-number quantization
+  (such as 9-bit numbers), ternary computers etc. pose a significant challenge
+  for existing fixed-bit-width computers. 
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Hard-to-solve Problems for Modern Compute}
+  \framesubtitle{Example 2}
+  \textbf{New Architectures/Solutions for Old Problems}
+
+  Kolmogorov-Arnold networks propose an alternative to MLPs (which is
+  at the core of machine learning today). Quick and cheap inclusion of KANs into
+  accelerators could help. TODO: write more
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{We can have our cake and eat it to}
+  \framesubtitle{}
+      \begin{enumerate}
+        \item Strengths of existing compute is known. We would like
+          to have these strengths in our systems and bring reconfigurable
+          heterogenous compute to tackle the weaknesses. 
+        \item We say, \textbf{It is possible to solve problems that are
+          insufficiently solved by existing compute whilst keeping existing
+          infrastructure (TODO: rephrase)}
+        \item The goal is to \textcolor{green}{assist} existing compute not
+          \textcolor{red}{replace}.
+      \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Setting the stage}
+  \framesubtitle{}
+    Two key ideas:
+      \begin{enumerate}
+        \item Reconfiguration: The process through which a "reconfigurable
+      processor" is re-programmed to implement a new circuit
+        \item Heterogeneity: A system must include processors of different 
+          capacities/abilites well integrated together.
+      \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Reconfigurability: An Introduction to FPGAs}
+\framesubtitle{}
+  \begin{enumerate}
+    \item FPGAs are a grid of cells that can be reprogrammed to implement
+      any circuit. 
+    \item Digital circuits consist of gates (that implement logic) and
+      connections (that connect gates to each other).
+    \item FPGAs, at the core, consist of SRAM cells (that implement the
+      functionality of gates by storing their truth-tables in SRAM cells) and
+      programmable interconnect (implemented via switch boxes) that allow
+      connections
+    \item Circuits for FPGAs are described using Hardware Descriptions Languages
+      (HDLs) such as Verilog, VHDL.
+    \item High level description of a circuit is compiled into real hardware
+      (i.e. a representation that only uses FPGA primitives) by a "compiler"
+  \end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Key problems with reconfigurable-heterogenous computing}
+\framesubtitle{}
+  \begin{enumerate}
+    \item To implement a reconfigurable heterogenous computer with FPGAs,
+      the problems are two-fold:
+    \item Problem 1: Using FPGAs with traditional softwares are in-convenient.
+    \item Problem 2: Writing new hardwares for FPGAs, implementing custom solutions is
+      tedious with a very steep learning curve, often times requiring 
+      domain expertise.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Problem 1: Programming model for FPGAs}
+\framesubtitle{}
+  \begin{enumerate}
+    \item GPUs enjoy a concrete and abstract programming model
+    \item No true industry grade programming model exists for FPGAs
+    \item There's OpenCL support for FPGAs. But that involves treating
+      FPGAs like an ASIC.
+    \item A true programming model for FPGAs would heavily exploit
+      reconfigurability
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Comparison of a reconfigurable-heterogenous programming model with a von-neumann
+  computer}
+\framesubtitle{}
+  back and forth vs flow in/out
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{A DSL for reconfigurable compute architectures}
+\framesubtitle{}
+  \begin{verbatim}
+    Base *input = new Tensor(std::vector<int>{1,2,3,4}, 
+                    "t1");
+    Base *b = new MLEngineCore(input, "gc1");
+    *b = input;
+    Base *b1 = new PeripheralMultiplex(b, "AHB", "pp1");
+    *b1 = b;
+    for (int i = 0; i < 100; ++i) {
+    Base *b1 = new Sha256(b);
+    *b1 = b;
+    }
+    Model m1 = new Model(input, b1);
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{A DSL for reconfigurable compute architectures (2)}
+\framesubtitle{}
+  \begin{verbatim}
+    Base *cam_in = new CameraCore("MIPI0", "cam1");
+    Base *proc_one = new GaussianBlurCore(input, "gc1");
+    *proc_one = cam_in;
+    Base *display_out = new 
+        PeripheralMultiplex(b, "LVDS", "pp1");
+    *display_out = proc_one;
+    Model m2 = new Model(cam_in, display_out);
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{A DSL for reconfigurable compute architectures (3)}
+\framesubtitle{}
+  \begin{verbatim}
+    m1->compute(input);
+    if (some_user_defined_condition(m1->output())) {
+      m2->compute(m1->output());
+    } else {
+      return m1->out();
+    }
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{A DSL for reconfigurable compute architectures (4)}
+\framesubtitle{}
+  explain dsl (TODO) (why use a dsl?)
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Problem 2: Writing hardwares is hard}
+  \framesubtitle{}
+  \begin{enumerate}
+    \item Writing HDLs is a tedious task often requiring domain expertise
+    \item EDA tools are propreitary and hard-to-work-with
+    \item The problem of compilation of hardwares is NP-Complete
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction to FPGA compilers}
+  \framesubtitle{}
+  *fpga toolflow infographic*
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Realizing this goal}
+  \begin{enumerate}
+    \item Realizing this goal requires designing and implementation from
+      first principles
+    \item To achieve this, we designed our own hardware: Vaaman
+    \item To understand the nature of applications (in the sense of what
+      bottlenecks exist and whether or not a certain application would
+      benefit from reconfigurable-heterogenous architecture), projects have been implemented
+    \item These include: Gati (an ML accelerator) and Periplex (a peripheral
+      multiplexor)
+    \item Discussion on this work follows:
+  \end{enumerate}
+  \framesubtitle{}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{The hardware (Vaaman)}
+  \framesubtitle{}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{vaaman.jpg}
+    \caption{Vaaman: A heterogenous SBC}
+    \label{neuron}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Implementation: ML Accelerator (Gati)}
+  Gati is a set of hardware and software programs that perform CNN
+  acceleration with FPGA as a co-processor.
+  \begin{enumerate}
+    \item At the core of gati is a systolic array pipeline based MAC engine
+    \item The Gati-ISA is macro (i.e. implements complex operations directly
+      like Convolution) instead of breaking them down into primitives
+    \item The instructions have almost a one-to-one match with 'layers'
+      from a neural network
+    \item Assisting this hardware is a Compiler/Runtime.
+    \item The compiler does two primary things:
+      \begin{enumerate}
+        \item Parsing of input data and NN models (protobufs etc.),
+          transpositions of kernels to allow contiguos memory access, and generation
+          of a byte stream that can be fed to the FPGA
+        \item Generating custom hardware for every nn model
+      \end{enumerate}
+    \item The runtime partitions a network into execute-on-host and
+      execute-on-device, re-orders inputs, and offloads computation
+      to the FPGA
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Gati has an ISA? But you said ISAs are bad?}
+  Gati is a testbed for modelling complex problems found in real world.
+  At the moment it does and doesn not do many things that we eventually want
+  from it.
+  For example:
+  \begin{enumerate}
+    \item Gati has a hardware generator. If this generator is generalized
+      enouugh, we end up solving a part of problem 1.
+    \item It still uses an ISA. But its possible to partition an ML
+      model so that it can entirely fit into 
+      the FPGA hardwired to do only a part of the model followed by
+      reconfiguration to execute later parts.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Implementation: Peripheral Multiplexor (Periplex)}
+  \framesubtitle{}
+
+  \begin{enumerate}
+    \item Periplex is a interface translator that allows communication
+      between a set of inputs from a set of protocols to a set of outputs
+      in another set of protocols
+    \item Consider, an application where 2 inputs each from an SPI bus and an
+      I2C bus need to drive 2 motors whose controller speaks CAN. Periplex can
+      be used to easily make hardware and enable this communication.
+    \item Periplex is, in a sense, the swiss army knife of embedded
+      communication protocols.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Conclusion}
+  \framesubtitle{}
+
+  \begin{enumerate}
+    \item Reconfigurable architectures can provide a way to solve many problems
+      that existing compute struggle with
+    \item Reconfigurable architectures as demostrated previously can help
+      alleviate von-neumann bottleneck.
+  \end{enumerate}
+\end{frame}
+
+\end{document}
