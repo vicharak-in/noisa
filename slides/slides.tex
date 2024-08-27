@@ -461,7 +461,9 @@ Sections
 
 \end{frame}
 
-
+\newcommand\myheading[1]{%
+  \par\bigskip
+  {\Large\bfseries#1}\par\smallskip}
 
 \begin{frame}[fragile]
     \frametitle{Compilers in EDA}
@@ -498,11 +500,6 @@ Sections
             \item uses LLVM and generates a binary file for simulation
         \end{enumerate}
 \end{frame}
-
-
-
-
-
 
 
 \begin{frame}[fragile]
