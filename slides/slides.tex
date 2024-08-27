@@ -33,9 +33,13 @@ Sections
 \institute{Vicharak, India @ vicharak.in}
 \date{28th September, 2024}
 
-\usebackgroundtemplate%
-{%
-    \includegraphics[width=\paperwidth,height=\paperheight]{logo.eps}%
+%\usebackgroundtemplate%
+%{%
+%    \includegraphics[width=\paperwidth,height=\paperheight]{logo.eps}%
+%}
+
+\titlegraphic{
+  \includegraphics[width=2cm]{logo.png}
 }
 
 \begin{document}
@@ -61,9 +65,12 @@ Sections
   \end{enumerate}
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Chapter 1 - Motivations for our work}
-
+\begin{frame}[c,fragile]
+  \frametitle{}
+  \centering
+  \textbf{Chapter 1}
+  \centering
+  Motivations for our work
 \end{frame}
 
 \begin{frame}[fragile]
@@ -156,33 +163,56 @@ Sections
 
 \begin{frame}[fragile]
   \frametitle{Hard-to-solve Problems for Modern Compute}
-  \framesubtitle{Example 2}
+  \framesubtitle{Example 3}
   \textbf{New Architectures/Solutions for Old Problems}
 
-  Kolmogorov-Arnold networks propose an alternative to MLPs (which is
-  at the core of machine learning today). Quick and cheap inclusion of KANs into
-  accelerators could help. TODO: write more
+  New solutions to old problems are those that are fundamentally different to
+  all existing solutions. For example, Kolmogorov-Arnold Networks (KANs) propose
+  an alternative to MLPs (which is at the core of machine learning today). KANs
+  reeplace the static parameter of MLPs with a learnt spline function. Wrappers
+  can be built around existing hardware to execute KANs too, but since its
+  different on a fundamental level, dedicated hardwares would be beneficial.
 
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{We can have our cake and eat it to}
+  \frametitle{Hard-to-solve Problems for Modern Compute}
+  \framesubtitle{Example 4}
+
+  \textbf{Power-efficiency without sacrifices}
+
+  Unlike general purpose chips, on FPGAs you only get what you need. As a
+  result, the overall power efficiency of dedicated hardware tends to be
+  higher than general purpose processors. 
+
+  Customizable architecture eliminates unused components and reconfigurability
+  allows adapting to changing workloads
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{"Should I throw away my CPU?"}
   \framesubtitle{}
-      \begin{enumerate}
-        \item Strengths of existing compute is known. We would like
-          to have these strengths in our systems and bring reconfigurable
-          heterogenous compute to tackle the weaknesses. 
-        \item We say, \textbf{It is possible to solve problems that are
-          insufficiently solved by existing compute whilst keeping existing
-          infrastructure (TODO: rephrase)}
-        \item The goal is to \textcolor{green}{assist} existing compute not
-          \textcolor{red}{replace}.
-      \end{enumerate}
+  \begin{enumerate}
+    \item Strengths of existing compute are known. We would like
+      to have these strengths in our systems and bring reconfigurable
+      heterogenous compute to tackle the weaknesses. 
+    \item We don't have to forego our CPUs, GPUs.
+    \item CPUs are good at running operating systems, they should continue
+      doing it. 
+    \item The goal is to \textcolor{green}{complement} existing compute not
+      \textcolor{red}{replace}.
+  \end{enumerate}
+
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Chapter 2 - Introduction to reconfigurable and heterogenouse computing}
+\begin{frame}[c,fragile]
+  \frametitle{}
 
+  \centering
+  \textbf{Chapter 2}
+  \centering
+  Introduction To Reconfigurable And Heterogenous Computing
 \end{frame}
 
 \begin{frame}[fragile]
@@ -262,6 +292,19 @@ Sections
   way desired. There are \textcolor{red}{no instructions} as the hardware
   is configured to a desired operation. Data flows in and out
   of the chip transformed. 
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Comparison of a reconfigurable-heterogenous programming model with a von-neumann
+  computer}
+  \framesubtitle{}
+  It could be said from the previous slide that the reconfigurable style of
+  architecture has no Instruction Set Architecture (ISA) (hence the title
+  of this talk). "What to do with data" is a part of the hardware, instead
+  of being attached with the data in the form of instructions. It's the
+  only thing that it does.
+  Following are a few examples of reconfigurable no-ISA architecture. They
+  include a JPEG encoder and a CNN accelerator:
 \end{frame}
 
 
@@ -381,9 +424,13 @@ Sections
   generated, flashed and computation begins for it.
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Chapter 3 - Need for modern EDA compilers}
+\begin{frame}[c,fragile]
+  \frametitle{}
 
+  \centering
+  \textbf{Chapter 3} 
+  \centering
+  Need for modern EDA compilers
 \end{frame}
 
 \begin{frame}[fragile]
@@ -427,24 +474,7 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Understanding of present CAD Tool flow}
-    \framesubtitle{boolean Expression}
-     for example:
-\begin{figure}
-    \centering
-    \includegraphics[width=0.35\linewidth]{images/basic_block.png}
-    \caption{Two bit counter block}
-    \label{exa_block}
-\end{figure}
-    boolean expression:
-     \begin{document}
-         \[ {S}_0 = \overline{CNT}\cdot{S}_0+ CNT \cdot \overline{{S}_0} \]
-         \[ {S}_1  ={S}_1 (\overline{CNT} \cdot\overline{{S}_0}) + CNT\cdot{S}_0\cdot\overline{{S}_1} \]
-     \end{document}
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{Understanding of present CAD Tool flow}
+    \frametitle{FPGA CAD Toolflow: The Frontend}
     \framesubtitle{Logical Synthesis,Technology Mapping}
     \begin{enumerate}
       \item Logical synthesis is the process that parses HDL, performs
@@ -458,11 +488,22 @@ Sections
         \caption{Gates Mapped for given Expression}
         \label{exa_mapgate}
     \end{figure}
+
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Understanding of present CAD Tool flow}
-    \framesubtitle{Logical Synthesis, Technology Mapping}
+  \frametitle{FPGA CAD Toolflow: Synthesis/Mapping Via Example}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.35\linewidth]{images/basic_block.png}
+    \caption{Two bit counter block}
+    \label{exa_block}
+  \end{figure}
+  boolean expression:
+  %\begin{equation}
+  %  \[ {S}_0 = \overline{CNT}\cdot{S}_0+ CNT \cdot \overline{{S}_0} \]
+  %  \[ {S}_1  ={S}_1 (\overline{CNT} \cdot\overline{{S}_0}) + CNT\cdot{S}_0\cdot\overline{{S}_1} \]
+  %\end{equation}
     \begin{figure}
         \centering
         \includegraphics[width=0.5\linewidth]{images/LUT.png}
@@ -473,8 +514,8 @@ Sections
 
 
 \begin{frame}[fragile]
-  \frametitle{Understanding of present CAD Tool flow}
-  \framesubtitle{Placement, Routing}
+  \frametitle{FPGA CAD Toolflow: The Backend}
+  \framesubtitle{Placement}
   \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{images/FPGA_Fabric.png}
@@ -486,8 +527,8 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Understanding of present CAD Tool flow}
-  \framesubtitle{Placement, Routing}
+  \frametitle{FPGA CAD Toolflow: The Backend}
+  \framesubtitle{Routing}
   Routing : interconnect the Configurable Logic  blocks with minimum timing cost 
   \begin{figure}
     \centering
@@ -498,7 +539,7 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Understanding of present CAD Tool flow}
+  \frametitle{FPGA CAD Toolflow: Backend via Example}
   \framesubtitle{Placement, Routing}
 
   Placement and Routing for Two Bit counter would be 
@@ -525,14 +566,15 @@ Sections
       entire hardware may not change frequently so their resulting minimal
       boolean expressions can be cached and further sped up by performing a
       look up in this cache instead of searching all over again.
-    \item Routing can be re-designed to use GPUs (TODO: more)
+    \item Routing can be designed to make use of GPUs (TODO: more?)
   \end{enumerate}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Chapter 4 - Work Done Towards Implementation}
-  \framesubtitle{}
-  Chapter 4 - Work Done Towards Implementation
+\begin{frame}[c,fragile]
+
+  \centering
+  \textbf{Chapter 4}
+  Work Done Towards Implementation
 \end{frame}
 
 \begin{frame}[fragile]
@@ -552,7 +594,7 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{The hardware (Vaaman)}
+  \frametitle{The Hardware (Vaaman)}
   \framesubtitle{}
   \begin{figure}
     \centering
