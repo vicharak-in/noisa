@@ -526,6 +526,7 @@ also discussed.
     \item Most of the opensource EDA compilers such as Yosys, CIRCT, Verilator,
       openvaf can't create real hardware. They are limited to
       logical synthesis and simulation.
+     \item Vpr\cite{vpr2},Nextpnr\cite{nextpnr1} Compilers used for Placement and Routing  
   \end{enumerate}
 
 \end{frame}
@@ -536,7 +537,7 @@ also discussed.
 
 \begin{frame}[fragile]
     \frametitle{Compilers in EDA}
-     \myheading{Yosys} 
+     \myheading{Yosys\footnote{\url{https://github.com/YosysHQ/yosys}}}
         \begin{enumerate}
             \item Compiler that generates  verilog to netlist format (support Technology Mapping)
             \item IR: RTLIL
@@ -544,7 +545,7 @@ also discussed.
               only 2 states)
             \item Largely community driven
         \end{enumerate}
-    \myheading{Verilator}
+    \myheading{Verilator\footnote{\url{https://github.com/verilator/verilator}}}
         \begin{enumerate}
             \item Compiler that generates Cpp code from Verilog files
             \item Used extensively for cycle based simualation (supports only 2 states)
@@ -555,7 +556,7 @@ also discussed.
 
 \begin{frame}[fragile]
     \frametitle{Compilers in EDA}
-    \myheading{CIRCT}
+    \myheading{CIRCT\footnote{\url{https://circt.llvm.org/}}}
         \begin{enumerate}
             \item Modular usage of libraries, designs similar to LLVM/MLIR in Hardware  
             \item \{HLS, sv\} to \{sv, vcd etc\}
@@ -564,14 +565,39 @@ also discussed.
                 \item Cycle based simualation (supports only 2 states)
             \item Supports only simulation 
         \end{enumerate}
-    \myheading{Openvaf}
+    \myheading{Openvaf\footnote{\url{https://openvaf.semimod.de/}}}
         \begin{enumerate}
             \item Verilog-A frontend 
             \item Uses LLVM and generates a binary file for simulation
         \end{enumerate}
 \end{frame}
 
+\begin{frame}[fragile]
+   \frametitle{Compilers in EDA}
+   \myheading{nextpnr\footnote{\url{https://github.com/YosysHQ/nextpnr}}}
+   \begin{enumerate}
+   	\item vendor neutral place and Route tool 
+	\item Community Driven , used to test new approaches and add opensource solution for proprietary CAD tool
+	\item such as : ProjectXray,Project Trellis etc...
+   \end{enumerate}
+   \myheading{Vpr \footnote{\url{https://docs.verilogtorouting.org/en/latest/vpr/}}}
+   \begin{enumerate}
+   	\item Place and Route Tool 
+	\item Extensively used in Research Exploration of new FPGA Architectures and CAD Algorithms
+   \end{enumerate}
+\end{frame}
 
+
+\begin{frame}[fragile]
+   \frametitle{Compilers in EDA}
+     \begin{figure}
+         \centering
+	 \includegraphics[width=1\linewidth]{images/nextpnr_ecosystem.png}
+	 \hspace*{1pt}\hbox{\scriptsize Credit:\thinspace{\small\itshape David Shah Orconf 2019}}
+	 \caption{nextpnr eco system}
+	 \label{exa_nextpnr}
+     \end{figure}
+\end{frame}
 \begin{frame}[fragile]
   \frametitle{FPGA CAD Toolflow}
   \framesubtitle{}
