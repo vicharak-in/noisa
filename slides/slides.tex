@@ -1,5 +1,5 @@
-#!/usr/bin/pdflatex \catcode35=14 \input
-\catcode`\#=6
+%#!/usr/bin/pdflatex \catcode35=14 \input
+%\catcode`\#=6
 
 \documentclass{beamer}
 \usetheme{Warsaw}
@@ -37,6 +37,9 @@ Sections
 %{%
 %    \includegraphics[width=\paperwidth,height=\paperheight]{logo.eps}%
 %}
+
+\usepackage[backend=bibtex,style=numeric]{biblatex}
+\addbibresource{slides.bib}
 
 \titlegraphic{
   \includegraphics[width=2cm]{logo.png}
@@ -539,12 +542,12 @@ Sections
    \[{S}_1  ={S}_1 (\overline{CNT} \cdot\overline{{S}_0}) + CNT\cdot{S}_0\cdot\overline{{S}_1} \]
     \begin{figure}[h]
         \begin{subfigure}{.5\textwidth}
-            \includegraphics[width=0.9\linewidth]{slides/images/basic_block.png} 
+            \includegraphics[width=0.9\linewidth]{images/basic_block.png} 
              \caption{Two bit counter block}
              \label{fig:subim1}
         \end{subfigure}
         \begin{subfigure}{.5\textwidth}
-             \includegraphics[width=0.9\linewidth]{slides/images/LUT.png}
+             \includegraphics[width=0.9\linewidth]{images/LUT.png}
              \caption{Example LUT }
              \label{fig:subim2}
              \end{subfigure}
@@ -587,11 +590,9 @@ Sections
   \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{images/fpga_luts.png}
-    \caption{LUTs Connected with wire  }
+    \caption{LUTs Connected with wire\footfullcite{brown92}}
     \label{exa_interconnect}
   \end{figure}
-  **todo Add Image credits and make images more consise 
-  Add opensource compilation process 
 \end{frame}
 
 \begin{frame}[fragile]
@@ -710,6 +711,11 @@ Sections
     \item Reconfigurable architectures as demostrated previously can help
       alleviate von-neumann bottleneck.
   \end{enumerate}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+        \frametitle{References}
+\printbibliography
 \end{frame}
 
 \end{document}
