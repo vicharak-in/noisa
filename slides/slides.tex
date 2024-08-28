@@ -27,6 +27,29 @@ Sections
   Conclusion
 \fi
 
+\iffalse
+
+Abstract
+
+As Moore's law's imminent slow down is in effect, there is a need for innovative
+architectures designed from ground-up with both hardware and software in mind.
+We describe an architecture along with a family of software programs (compilers
+and runtimes) that form the basis of this hardware-software system. Moreover,
+interoperation with existing compute infrastructure is proposed. The
+architecture at its core executes expected functionality (i.e.  operations
+expected to be performed by a traditional processor) not with a fixed
+instruction set but by reconfiguring flexible re-programmable hardwares
+dynamically at the time of computation. This reconfiguration, driven by a
+software compiler specializes the hardware for every function but generalizes
+(in the time domain) through re-configuration. In contrast to traditional
+cpu-memory back-and-forth dataflow, this architecture exihibits a uni-lateral
+flow of data with zero instruction overhead (as a result of there being no
+instructions at all) alleviating the von-neumann bottleneck. Additionally,
+oppurtunities to improve existing compilers for reconfigurable chips (FPGAs) are
+also discussed.
+
+\fi
+
 \title{No-ISA Is The Best ISA}
 \subtitle{}
 \author{Shreeyash Pandey, Rishik Ram}
@@ -62,7 +85,7 @@ Sections
 
   \begin{enumerate}
     \item Chapter 1 - Motivations for our work
-    \item Chapter 2 - Introduction to reconfigurable and heterogenouse computing
+    \item Chapter 2 - Introduction to reconfigurable and heterogeneous computing
     \item Chapter 3 - Need for modern EDA compilers
     \item Chapter 4 - Work Done Towards Implementation  
   \end{enumerate}
@@ -78,7 +101,7 @@ Sections
 
 \begin{frame}[fragile]
 \frametitle{Problems facing modern compute}
-\framesubtitle{Moores law is slowing down}
+\framesubtitle{Moore's law is slowing down}
 
   \begin{figure}
     \centering
@@ -108,7 +131,7 @@ Sections
     \item Hardwares are designed first and complying softwares to support
       them after it.
     \item New and creative architectures need to be designed along with the
-      softwares abstractions to use them. 
+      software abstractions to use them. 
   \end{enumerate}
 \end{frame}
 
@@ -118,7 +141,7 @@ Sections
 \framesubtitle{}
   \begin{enumerate}
     \item An average motherboard has a CPU and optionally a GPU
-    \item In specialized domains, one may find ASICs being used (for eg, 
+    \item In specialized domains, one may find ASICs being used (for e.g., 
       ML acceleration)
     \item ASICs are pretty cool (and fast) and solve domain specific problems
       that CPU/GPUs may not be able to solve, but are they for everyone?
@@ -142,12 +165,12 @@ Sections
 
   An embedded application that uses object detection to find
   objects in a line of sight and responds to it by driving many motors in
-  real time needs heavy compute (for OD) and flexible IO to be able to 
+  real time needs heavy compute (for OD) and flexible I/O to be able to 
   drive all the motors reliably. \\
 
-  Existing solution would involve usign a GPU for ML workload, an
-  driving the motors from a CPU. A CPU may or may not have as many IOs
-  as required, in which case an IO expander may have to be set up.
+  Existing solution would involve using a GPU for ML workload, an
+  driving the motors from a CPU. A CPU may or may not have as many I/Os
+  as required, in which case an I/O expander or an ASIC may have to be set up.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -157,10 +180,12 @@ Sections
 
   Quantization is a technique of reducing precision of numbers at the loss of
   accuracy. Quantization is used extensively to speed up Neural Network
-  inference. New techniques such as heterogenous quantization of layers (i.e.
+  inference. New techniques such as heterogeneous quantization of layers (i.e.
   different bit-widths of numbers at layer granularity), odd-number quantization
   (such as 9-bit numbers), ternary computers etc. pose a significant challenge
   for existing fixed-bit-width computers. 
+
+  See \cite{coelho21}.
 
 \end{frame}
 
@@ -172,7 +197,7 @@ Sections
   New solutions to old problems are those that are fundamentally different to
   all existing solutions. For example, Kolmogorov-Arnold Networks (KANs) propose
   an alternative to MLPs (which is at the core of machine learning today). KANs
-  reeplace the static parameter of MLPs with a learnt spline function. Wrappers
+  replace the static parameter of MLPs with a learnt spline function. Wrappers
   can be built around existing hardware to execute KANs too, but since its
   different on a fundamental level, dedicated hardwares would be beneficial.
 
@@ -188,8 +213,24 @@ Sections
   result, the overall power efficiency of dedicated hardware tends to be
   higher than general purpose processors. 
 
-  Customizable architecture eliminates unused components and reconfigurability
-  allows adapting to changing workloads
+  FPGAs offer a fair middle-ground in terms of power efficiency. FPGAs
+  can have flexibility of CPUs but with the power efficiency that they possess
+  because of re-programmability.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Hard-to-solve Problems for Modern Compute}
+  \framesubtitle{Example 4 - Continue}
+
+  \textbf{Power-efficiency without sacrifices}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{power.png}
+    \caption{Power Difference b/w CPUs, GPUs, FPGAs, ASICs}
+    \label{}
+  \end{figure}
 
 \end{frame}
 
@@ -199,7 +240,7 @@ Sections
   \begin{enumerate}
     \item Strengths of existing compute are known. We would like
       to have these strengths in our systems and bring reconfigurable
-      heterogenous compute to tackle the weaknesses. 
+      heterogeneous compute to tackle the weaknesses. 
     \item We don't have to forego our CPUs, GPUs.
     \item CPUs are good at running operating systems, they should continue
       doing it. 
@@ -215,7 +256,7 @@ Sections
   \centering
   \textbf{Chapter 2}
   \centering
-  Introduction To Reconfigurable And Heterogenous Computing
+  Introduction To Reconfigurable And Heterogeneous Computing
 \end{frame}
 
 \begin{frame}[fragile]
@@ -226,7 +267,7 @@ Sections
         \item Reconfiguration: The process through which a "reconfigurable
       processor" is re-programmed to implement a new circuit
         \item Heterogeneity: A system must include processors of different 
-          capacities/abilites well integrated together.
+          capacities/abilities well integrated together.
       \end{enumerate}
 \end{frame}
 
@@ -238,8 +279,8 @@ Sections
       any circuit. 
     \item Digital circuits consist of gates (that implement logic) and
       connections (that connect gates to each other).
-    \item FPGAs, at the core, consist of SRAM cells (that implement the
-      functionality of gates by storing their truth-tables in SRAM cells) and
+    \item FPGAs popularly consist of SRAM cells (that implement the
+      functionality of gates by storing their truth-tables in it) and
       programmable interconnect (implemented via switch boxes) that allow
       connections
     \item Circuits for FPGAs are described using Hardware Descriptions Languages
@@ -251,10 +292,10 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Key problems with reconfigurable-heterogenous computing}
+\frametitle{Key Problems With Reconfigurable-Heterogenous Computing}
 \framesubtitle{}
   \begin{enumerate}
-    \item To implement a reconfigurable heterogenous computer with FPGAs,
+    \item To implement a reconfigurable heterogeneous computer with FPGAs,
       the problems are two-fold:
     \item Problem 1: Using FPGAs with traditional softwares are in-convenient.
     \item Problem 2: Writing new hardwares for FPGAs, implementing custom solutions is
@@ -277,35 +318,44 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Comparison of a reconfigurable-heterogenous programming model with a von-neumann
-  computer}
+  \frametitle{Comparison Of a Reconfigurable-Heterogenous Programming Model With a Von Neumann
+  Computer}
   \framesubtitle{}
   \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{flow.png}
-    \caption{a) A von-neumann computer b) a flowing reconfigurable computer}
+    \caption{a) A Von-Neumann Computer b) A Flowing Reconfigurable Computer}
     \label{}
   \end{figure}
-  Figure a) shows the difference b/w a von-neuman computer (which executes
+  Figure a) is a Von-Neumann computer which executes
   \textbf{instructions} on \textbf{data} over a \textbf{bus} resulting in
   back-and-forth of computation. 
 
   Figure b) is a flow computer where the
   hardware is configured to cause incoming data to be transformed in the
-  way desired. There are \textcolor{red}{no instructions} as the hardware
-  is configured to a desired operation. Data flows in and out
-  of the chip transformed. 
+  way desired. 
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Comparison of a reconfigurable-heterogenous programming model with a von-neumann
+  \frametitle{Comparison of a reconfigurable-heterogenous programming model with a Von-Neumann
   computer}
   \framesubtitle{}
-  It could be said from the previous slide that the reconfigurable style of
+
+  \begin{itemize}
+    \item There are \textcolor{red}{no instructions} as the hardware
+  is configured to a desired operation. Data flows in and out
+  of the chip transformed. 
+
+\item It could be said from the previous slide that the reconfigurable style of
   architecture has no Instruction Set Architecture (ISA) (hence the title
-  of this talk). "What to do with data" is a part of the hardware, instead
+  of this talk). 
+
+\item "What to do with data" is a part of the hardware, instead
   of being attached with the data in the form of instructions. It's the
   only thing that it does.
+  \end{itemize}
+  %See also: Can programming be liberated from the von Neumann style?
+  %\cite{backus78}
   Following are a few examples of reconfigurable no-ISA architecture. They
   include a JPEG encoder and a CNN accelerator:
 \end{frame}
@@ -349,10 +399,10 @@ Sections
       
     \item Hardwares for a problem are generated by a "Compiler" from a high-level
       specification that describes connection of coarse functions.
-    \item Any coarse hardware can be programatically be plucked and placed in a
+    \item Any coarse hardware can be programmatically be plucked and placed in a
       different setting thanks to the compilers ability to reason with hardware
       connections.
-    \item Flow based computer exibit a more functional approach towards
+    \item Flow based computer exhibit a more functional approach towards
       computation
     \item On a coarser scale, purity of computation is maintained as hardware
       blocks do not depend on a global state to execute
@@ -373,21 +423,22 @@ Sections
   \frametitle{An exemplary DSL for reconfigurable compute architectures}
 \framesubtitle{}
   \begin{verbatim}
-    Base *input = new Tensor(std::vector<int>{1,2,3,4}, 
-                    "t1");
+    Base *input = new PeripheralGen(nullptr, "MIPI", 
+                    "primary_input");
     Base *b = new MLEngineCore(input, "gc1");
     *b = input;
-    Base *b1 = new PeripheralMultiplex(b, "AHB", "pp1");
+    Base *b1 = new PeripheralGen(b, "AHB", "ml_to_sha");
     *b1 = b;
+    Base *b_array[100];
     for (int i = 0; i < 100; ++i) {
-    Base *b1 = new Sha256(b);
-    *b1 = b;
+      b_array[i] = new Sha256(b);
+      *(b_array[i]) = b1;
     }
-    Model m1 = new Model(input, b1);
+    Model m1 = new Model(input, b_array);
   \end{verbatim}
 
-  Describes an Mlaccelerator connected to a peripheral multiplexor
-  which is connected to 100 Sha256 blocks, all through c++.
+  Describes an Ml accelerator connected to a peripheral generator
+  which is connected to 100 Sha256 hardware blocks, all through c++.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -395,17 +446,32 @@ Sections
 \framesubtitle{}
   \begin{verbatim}
     Base *cam_in = new CameraCore("MIPI0", "cam1");
-    Base *proc_one = new GaussianBlurCore(input, "gc1");
+    Base *proc_one = new JPEGEncoderTillDct(input, 
+                          "jpeg_encoder");
     *proc_one = cam_in;
-    Base *display_out = new 
-        PeripheralMultiplex(b, "LVDS", "pp1");
-    *display_out = proc_one;
+    Base *proc_two = new MlEngineCore(input, "ml_core");
+    *proc_two = proc_one;
+    Base *display_out = new PeripheralGen(proc_one, 
+      l                   "LVDS", "out1");
+    *display_out = proc_two;
     Model m2 = new Model(cam_in, display_out);
   \end{verbatim}
-  Describes an application that takes input from camera,
-  implements gaussian blur on it and returns it to an LVDS interface on the
-  FPGA.
+  Describes an application that takes raw inputs from camera, passes it through
+  a JPEGEncoder that stops after the DCT step, executes ML inference on the
+  outputs of the encoder, returns the results on the LVDS.
 
+  Next slides shows the digram for this model:
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{An exemplary DSL for reconfigurable compute architectures (2)}
+\framesubtitle{Continue}
+   \begin{figure}
+        \centering
+        \includegraphics[width=1\linewidth]{flowcnnjpeg.png}
+        \caption{Data flow for JPEG (Partial) + CNN inference}
+    \end{figure}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -437,7 +503,7 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Problem 2: Writing hardwares is hard}
+  \frametitle{Problem 2: Writing Hardware Is Hard}
   \framesubtitle{}
   \begin{enumerate}
     \item Writing HDLs is a tedious task often requiring domain expertise
@@ -472,16 +538,17 @@ Sections
     \frametitle{Compilers in EDA}
      \myheading{Yosys} 
         \begin{enumerate}
-            \item Compiler that generates  verilog to netlist format(support Technology mapping)
-            \item IR : RTLIL
-            \item SupportSimulation: CXXRTL (cycle driven simulator)(supports only 2 states
-            \item Largely community Driven
+            \item Compiler that generates  verilog to netlist format (support Technology Mapping)
+            \item IR: RTLIL
+            \item Support simulation: CXXRTL (cycle driven simulator) (supports
+              only 2 states)
+            \item Largely community driven
         \end{enumerate}
     \myheading{Verilator}
         \begin{enumerate}
             \item Compiler that generates Cpp code from Verilog files
-            \item Used Extensively for cycle based simualation (supports only 2 states )
-            \item competes with proprietary simulators ,Community Driven
+            \item Used extensively for cycle based simualation (supports only 2 states)
+            \item Competes with proprietary simulators, community driven.
         \end{enumerate}
     
 \end{frame}
@@ -491,16 +558,16 @@ Sections
     \myheading{CIRCT}
         \begin{enumerate}
             \item Modular usage of libraries, designs similar to LLVM/MLIR in Hardware  
-            \item \{HLS,sv\} to \{sv,vcd etc ... \}
-            \item Hardware MLIR  Dialects 
+            \item \{HLS, sv\} to \{sv, vcd etc\}
+            \item Hardware MLIR  dialects 
             \item Arcilator used for simulation 
-                \item cycle based simualation (supports only 2 states )
+                \item Cycle based simualation (supports only 2 states)
             \item Supports only simulation 
         \end{enumerate}
     \myheading{Openvaf}
         \begin{enumerate}
             \item Verilog-A frontend 
-            \item uses LLVM and generates a binary file for simulation
+            \item Uses LLVM and generates a binary file for simulation
         \end{enumerate}
 \end{frame}
 
@@ -511,7 +578,7 @@ Sections
    \begin{figure}
         \centering
         \includegraphics[width=1\linewidth]{images/cad_flow_fl.png}
-        \caption{FPGA CAD Tool Flow }
+        \caption{FPGA CAD Tool Flow}
         \label{exa_cadflow}
     \end{figure}
    
@@ -623,12 +690,13 @@ Sections
   \begin{enumerate}
     \item Realizing this goal requires designing and implementation from
       first principles
-    \item To achieve this, we designed our own hardware: Vaaman
+    \item To achieve this, we designed our own hardware: Vaaman. 
+    \item Vaaman is a reconfigurable heterogenous computer.
     \item To understand the nature of applications (in the sense of what
       bottlenecks exist and whether or not a certain application would
       benefit from reconfigurable-heterogenous architecture), projects have been implemented
     \item These include: Gati (an ML accelerator) and Periplex (a peripheral
-      multiplexor)
+      generator)
     \item Discussion on this work follows:
   \end{enumerate}
   \framesubtitle{}
@@ -650,16 +718,17 @@ Sections
   Gati is a set of hardware and software programs that perform CNN
   acceleration with FPGA as a co-processor.
   \begin{enumerate}
-    \item At the core of gati is a systolic array pipeline based MAC engine
-    \item The Gati-ISA is macro (i.e. implements complex operations directly
+    \item At the core of Gati is a systolic array pipeline based MAC engine
+    \item The Gati-ISA is a macro-ISA (i.e. implements complex operations directly
       like Convolution) instead of breaking them down into primitives
     \item The instructions have almost a one-to-one match with 'layers'
       from a neural network
     \item Assisting this hardware is a Compiler/Runtime.
     \item The compiler does two primary things:
       \begin{enumerate}
-        \item Parsing of input data and NN models (protobufs etc.),
-          transpositions of kernels to allow contiguos memory access, and generation
+        \item Parsing of input data and NN models (protobufs (ONNX) etc.),
+          transpositions of kernels to allow contiguous memory access on the 
+          FPGA, and generation
           of a byte stream that can be fed to the FPGA
         \item Generating custom hardware for every nn model
       \end{enumerate}
@@ -672,7 +741,7 @@ Sections
 \begin{frame}[fragile]
   \frametitle{Gati has an ISA? But you said ISAs are bad?}
   Gati is a testbed for modelling complex problems found in real world.
-  At the moment it does and doesn not do many things that we eventually want
+  At the moment it does and does not do many things that we eventually want
   from it.
   For example:
   \begin{enumerate}
@@ -686,13 +755,14 @@ Sections
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Implementation: Peripheral Multiplexor (Periplex)}
+  \frametitle{Implementation: Peripheral Generator (Periplex)}
   \framesubtitle{}
 
   \begin{enumerate}
     \item Periplex is a interface translator that allows communication
       between a set of inputs from a set of protocols to a set of outputs
       in another set of protocols
+    \item With periplex, one can generate peripherals on the fly!
     \item Consider, an application where 2 inputs each from an SPI bus and an
       I2C bus need to drive 2 motors whose controller speaks CAN. Periplex can
       be used to easily make hardware and enable this communication.
@@ -707,14 +777,24 @@ Sections
 
   \begin{enumerate}
     \item Reconfigurable architectures can provide a way to solve many problems
-      that existing compute struggle with
-    \item Reconfigurable architectures as demostrated previously can help
-      alleviate von-neumann bottleneck.
+      that existing compute struggle with and help alleviate the von-neumann
+      bottleneck.
+    \item Heterogenous approach of assisting instead of replacing integration of
+      new hardwares in systems can allow existing infrastructure to be used.
+    \item Two of the biggest problems with achieving this are a) programming
+      model that exploits reconfigurability b) fast and flexible hardware
+      compilers (EDA tools)
+    \item Solutions to problem a) manifest themselves in the form of novel DSLs
+      and compiler/runtime toolchains compatible with current
+      toolchain/workflows used by CPUs
+    \item Solutions to problem b) involve finding optimization oppurtunities
+      to speed up EDA tools, making use of modern parallel hardwares such as
+      GPU, and other accelerators.
   \end{enumerate}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
-        \frametitle{References}
+\frametitle{References}
 \printbibliography
 \end{frame}
 
