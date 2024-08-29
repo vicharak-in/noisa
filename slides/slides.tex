@@ -2,7 +2,7 @@
 %\catcode`\#=6
 
 \documentclass{beamer}
-\usetheme{Warsaw}
+%\usetheme{Default}
 \usepackage{verbatim,subcaption}
 
 \iffalse 
@@ -68,11 +68,15 @@ also discussed.
   \includegraphics[width=2cm]{logo.png}
 }
 
+
 \begin{document}
 
 \begin{frame}
 \titlepage
 \end{frame}
+
+{
+\logo{\includegraphics[width=.07\textwidth]{logo.png}}
 
 \begin{frame}[fragile]
 \frametitle{About us}
@@ -891,5 +895,7 @@ also discussed.
 \frametitle{References}
 \printbibliography
 \end{frame}
+
+}
 
 \end{document}
