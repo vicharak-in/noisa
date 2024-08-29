@@ -533,34 +533,34 @@ also discussed.
   \frametitle{Opensource EDA Compilers}
   \framesubtitle{}
   \begin{enumerate}
-    \item Groups such as f4pga, YosysHQ, openfpga are trying to create opensource
+    \item Groups such as f4pga, YosysHQ and openfpga are trying to create opensource
       alternatives for proprietary CAD tools by reverse engineering FPGAs
       but are limited by the resources 
-    \item Creating Open Software infrastructure for Hardware (flexibility),
-      which is community driven 
-    \item Most of the opensource EDA compilers such as Yosys, CIRCT, Verilator,
+    \item Creating Open Software Infrastructure for Hardware (flexibility),
+      which is community-driven 
+    \item Most of the opensource EDA compilers such as yosys, CIRCT, verilator,
       openvaf can't create real hardware. They are limited to
       logical synthesis and simulation.
-     \item Vpr\cite{vpr2},Nextpnr\cite{nextpnr1} Compilers used for Placement and Routing  
+     \item vpr\cite{vpr2},nextpnr\cite{nextpnr1} compilers used for placement and routing  
   \end{enumerate}
 \end{frame}
 
 
 \begin{frame}[fragile]
     \frametitle{Compilers in EDA}
-     \myheading{Yosys\footnote{\url{https://github.com/YosysHQ/yosys}}}
+     \myheading{yosys\footnote{\url{https://github.com/YosysHQ/yosys}}}
         \begin{enumerate}
             \item Compiler that generates  verilog to netlist format (support Technology Mapping)
             \item IR: RTLIL
-            \item Support simulation: CXXRTL (cycle driven simulator) (supports
+            \item Support simulation: CXXRTL (cycle-driven simulator) (supports
               only 2 states)
-            \item Largely community driven
+            \item Largely community-driven
         \end{enumerate}
-    \myheading{Verilator\footnote{\url{https://github.com/verilator/verilator}}}
+    \myheading{verilator\footnote{\url{https://github.com/verilator/verilator}}}
         \begin{enumerate}
             \item Compiler that generates Cpp code from Verilog files
             \item Used extensively for cycle based simualation (supports only 2 states)
-            \item Competes with proprietary simulators, community driven.
+            \item Competes with proprietary simulators, community-driven.
         \end{enumerate}
     
 \end{frame}
@@ -574,10 +574,10 @@ also discussed.
             \item \{HLS, sv\} to \{sv, vcd etc\}
             \item Hardware MLIR  dialects 
             \item Arcilator used for simulation 
-                \item Cycle based simualation (supports only 2 states)
+                \item Cycle based simulation (supports only 2 states)
             \item Supports only simulation 
         \end{enumerate}
-    \myheading{Openvaf\footnote{\url{https://openvaf.semimod.de/}}}
+    \myheading{openvaf\footnote{\url{https://openvaf.semimod.de/}}}
         \begin{enumerate}
             \item Verilog-A frontend 
             \item Uses LLVM and generates a binary file for simulation
@@ -589,14 +589,14 @@ also discussed.
    \myheading{nextpnr\footnote{\url{https://github.com/YosysHQ/nextpnr}}}
    \begin{enumerate}
    	\item vendor neutral place and Route tool 
-	\item Community driven , used to test new CAD Algorithms and used as backend opensource solution for proprietary FPGAs 
-	\item such as : ProjectXray,ProjectTrellis etc...
+	\item Community-driven , used to test new CAD algorithms and used as backend opensource solution for proprietary FPGAs 
+	\item such as ProjectXray,ProjectTrellis etc.
    \end{enumerate}
 
-   \myheading{Vpr \footnote{\url{https://docs.verilogtorouting.org/en/latest/vpr/}}}
+   \myheading{vpr \footnote{\url{https://docs.verilogtorouting.org/en/latest/vpr/}}}
    \begin{enumerate}
-   	\item Place and Route Tool 
-	\item Extensively used in Research Exploration of new FPGA Architectures and CAD Algorithms
+   	\item place and route Tool 
+	\item extensively used in research exploration of new FPGA architectures and CAD algorithms
    \end{enumerate}
 \end{frame}
 
@@ -606,7 +606,7 @@ also discussed.
      \begin{figure}
          \centering
 	 \includegraphics[width=1\linewidth]{images/nextpnr_ecosystem.png}
-	 \hspace*{1pt}\hbox{\scriptsize Credit:\thinspace{\small\itshape David Shah Orconf 2019}}
+	 \hspace*{1pt}\hbox{\scriptsize Credit:\thinspace{\small\itshape Myrtle Shah Orconf 2019}}
 	 \caption{nextpnr eco system}
 	 \label{exa_nextpnr}
      \end{figure}
@@ -640,7 +640,7 @@ also discussed.
    \begin{figure}[h]
        \centering
        \includegraphics[width=0.45\linewidth]{images/basic_block.png} 
-       \caption{Two bit counter block}
+       \caption{two bit counter block}
        \label{exa_block}
     \end{figure}
 \end{frame}
@@ -653,7 +653,7 @@ also discussed.
     \framesubtitle{Logical Synthesis,Technology Mapping}
     \begin{enumerate}
       \item Logical synthesis is the process that parses HDL, performs
-        technology-agnostic optimizations, and outputs a circuit (netlist)
+        technology-agnostic optimisations, and outputs a circuit (netlist)
         of generic primitives
       \item Technology Mapping maps generic primitives generated by synthesis to
         FPGA-specific primitives. 
@@ -696,7 +696,7 @@ also discussed.
   \frametitle{FPGA CAD Toolflow: Backend via Example}
   \framesubtitle{Placement, Routing}
 
-  Placement and Routing for Two Bit counter would be 
+  placement and routing for the two-bit counter would be 
 
   \begin{figure}
     \centering
@@ -710,15 +710,15 @@ also discussed.
   \frametitle{Optimization oppurtunity for EDA compilers}
   \framesubtitle{}
   \begin{enumerate}
-    \item Our DSL compiler connects hardwares together. The mapping phase
-      of hardware generation can be completely by-passed if the compiler can
+    \item Our DSL compiler connects hardware together. The mapping phase
+      of hardware generation can be completely bypassed if The compiler can
       be designed to operate on netlists directly instead of verilog.
-    \item Mapping process involves among many steps a phase where it looks
+    \item The mapping process involves, among many steps, a phase where it looks
       for a minimal boolean expression. In iterative write-compile-debug loops
       entire hardware may not change frequently so their resulting minimal
       boolean expressions can be cached and further sped up by performing a
       look up in this cache instead of searching all over again.
-    \item Routing can be designed to make use of GPUs 
+    \item Routing can be designed to make use of GPUs.
   \end{enumerate}
 \end{frame}
 
