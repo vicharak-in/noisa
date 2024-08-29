@@ -52,7 +52,7 @@ also discussed.
 
 \title{No-ISA Is The Best ISA}
 \subtitle{}
-\author{Shreeyash Pandey, Rishik Ram}
+\author{Shreeyash Pandey, Rishik Ram Jallarapu}
 \institute{Vicharak, India @ vicharak.in}
 \date{28th September, 2024}
 
@@ -502,6 +502,11 @@ also discussed.
   Need for modern EDA compilers
 \end{frame}
 
+\newcommand\myheading[1]{%
+  \par\bigskip
+  {\Large\bfseries#1}\par\smallskip}
+
+ 
 \begin{frame}[fragile]
   \frametitle{Problem 2: Writing Hardware Is Hard}
   \framesubtitle{}
@@ -513,6 +518,16 @@ also discussed.
   \end{enumerate}
 \end{frame}
 
+
+\begin{frame}[fragile]
+  \frametitle{The FPGA}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/fpga_fabric.png}
+    \caption{Sample FPGA Fabric\cite{brown92}}
+    \label{exa-fabric}
+  \end{figure}
+\end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Opensource EDA Compilers}
@@ -528,12 +543,8 @@ also discussed.
       logical synthesis and simulation.
      \item Vpr\cite{vpr2},Nextpnr\cite{nextpnr1} Compilers used for Placement and Routing  
   \end{enumerate}
-
 \end{frame}
 
-\newcommand\myheading[1]{%
-  \par\bigskip
-  {\Large\bfseries#1}\par\smallskip}
 
 \begin{frame}[fragile]
     \frametitle{Compilers in EDA}
@@ -553,6 +564,7 @@ also discussed.
         \end{enumerate}
     
 \end{frame}
+
 
 \begin{frame}[fragile]
     \frametitle{Compilers in EDA}
@@ -577,9 +589,10 @@ also discussed.
    \myheading{nextpnr\footnote{\url{https://github.com/YosysHQ/nextpnr}}}
    \begin{enumerate}
    	\item vendor neutral place and Route tool 
-	\item Community Driven , used to test new approaches and add opensource solution for proprietary CAD tool
-	\item such as : ProjectXray,Project Trellis etc...
+	\item Community driven , used to test new CAD Algorithms and used as backend opensource solution for proprietary FPGAs 
+	\item such as : ProjectXray,ProjectTrellis etc...
    \end{enumerate}
+
    \myheading{Vpr \footnote{\url{https://docs.verilogtorouting.org/en/latest/vpr/}}}
    \begin{enumerate}
    	\item Place and Route Tool 
@@ -598,17 +611,42 @@ also discussed.
 	 \label{exa_nextpnr}
      \end{figure}
 \end{frame}
+
 \begin{frame}[fragile]
   \frametitle{FPGA CAD Toolflow}
   \framesubtitle{}
    \begin{figure}
         \centering
-        \includegraphics[width=1\linewidth]{images/cad_flow_fl.png}
+        \includegraphics[width=1\linewidth]{images/cad_flow.png}
         \caption{FPGA CAD Tool Flow}
         \label{exa_cadflow}
     \end{figure}
    
 \end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{FPGA CAD Toolflow: Synthesis/Mapping Via Example}
+  \begin{columns}
+   \begin{column}{0.5\textwidth}
+     boolean expression:
+    \end{column}
+% Column 2    
+   \begin{column}{0.5\textwidth}		
+     \[{S}_0 = \overline{CNT}\cdot{S}_0+ CNT \cdot \overline{{S}_0} \]
+     \[{S}_1  ={S}_1 (\overline{CNT} \cdot\overline{{S}_0}) + CNT\cdot{S}_0\cdot\overline{{S}_1} \]
+   \end{column}
+   \end{columns}
+   \begin{figure}[h]
+       \centering
+       \includegraphics[width=0.45\linewidth]{images/basic_block.png} 
+       \caption{Two bit counter block}
+       \label{exa_block}
+    \end{figure}
+\end{frame}
+
+
+
 
 \begin{frame}[fragile]
     \frametitle{FPGA CAD Toolflow: The Frontend}
@@ -628,38 +666,18 @@ also discussed.
 
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{FPGA CAD Toolflow: Synthesis/Mapping Via Example}
-  boolean expression:
-   \[{S}_0 = \overline{CNT}\cdot{S}_0+ CNT \cdot \overline{{S}_0} \]
-   \[{S}_1  ={S}_1 (\overline{CNT} \cdot\overline{{S}_0}) + CNT\cdot{S}_0\cdot\overline{{S}_1} \]
-    \begin{figure}[h]
-        \begin{subfigure}{.5\textwidth}
-            \includegraphics[width=0.9\linewidth]{images/basic_block.png} 
-             \caption{Two bit counter block}
-             \label{fig:subim1}
-        \end{subfigure}
-        \begin{subfigure}{.5\textwidth}
-             \includegraphics[width=0.9\linewidth]{images/LUT.png}
-             \caption{Example LUT }
-             \label{fig:subim2}
-             \end{subfigure}
-    \end{figure}
-\end{frame}
-
-
 
 \begin{frame}[fragile]
   \frametitle{FPGA CAD Toolflow: The Backend}
   \framesubtitle{Placement}
+  Simulated Annealing (industry standard Algorithm) to place based on Minimum cost model 
   \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{images/FPGA_Fabric.png}
-    \caption{Example FPGA Fabric}
+    \includegraphics[width=0.35\linewidth]{images/Lut_bare.png}
+    \caption{LUTs in FPGA Fabric\cite{brown92}}
     \label{exa-fabric}
   \end{figure}
 
-  Simulated Annealing (industry standard Algorithm) to place based on Minimum cost model 
 \end{frame}
 
 \begin{frame}[fragile]
@@ -683,7 +701,7 @@ also discussed.
   \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{images/fpga_luts.png}
-    \caption{LUTs Connected with wire\footfullcite{brown92}}
+    \caption{LUTs Connected with wire\cite{brown92}}
     \label{exa_interconnect}
   \end{figure}
 \end{frame}
