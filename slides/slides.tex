@@ -4,6 +4,7 @@
 \documentclass{beamer}
 %\usetheme{Default}
 \usepackage{verbatim,subcaption}
+\usepackage[format=plain]{caption}
 
 \iffalse 
 Sections
@@ -50,7 +51,7 @@ also discussed.
 
 \fi
 
-\title{No-ISA Is The Best ISA}
+\title{No-ISA is the Best ISA}
 \subtitle{}
 \author{Shreeyash Pandey, Rishik Ram Jallarapu}
 \institute{Vicharak, India @ vicharak.in}
@@ -89,8 +90,8 @@ also discussed.
   computing hardware, as well as an entirely new kind of computing ecosystem
   that can sit on your desk, rest in your palm, or exist in the cloud. 
 
-  For such an ambitious goal, vicharak is ready to work on every vertical with
-  a team of ~50 passionate engineers and thinkers deeply entrenched to make this
+  For such an ambitious goal, Vicharak is ready to work on every vertical with
+  a team of \~{}50 passionate engineers and thinkers deeply entrenched to make this
   vision a reality.
 
   - Akshar Vastarpara (Founder and CEO, Vicharak)
@@ -101,12 +102,12 @@ also discussed.
 \begin{frame}[fragile]
 \frametitle{Contents}
 
-  \begin{enumerate}
-    \item Chapter 1 - Motivations for our work
-    \item Chapter 2 - Introduction to reconfigurable and heterogeneous computing
+  \begin{itemize}
+    \item Chapter 1 - Motivations for our Work
+    \item Chapter 2 - Introduction to Reconfigurable and Heterogeneous Computing
     \item Chapter 3 - Need for modern EDA compilers
     \item Chapter 4 - Work Done Towards Implementation  
-  \end{enumerate}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[c,fragile]
@@ -114,23 +115,24 @@ also discussed.
   \centering
   \textbf{Chapter 1}
   \centering
-  Motivations for our work
+  Motivations for our Work
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Problems facing modern compute}
+\frametitle{Problems Facing Modern Compute}
 \framesubtitle{Moore's law is slowing down}
 
   \begin{figure}
     \centering
     \includegraphics[width=0.85\textwidth]{mooreslaw.png}
-    \caption{From "A Golden Age of Computers - David Patterson"}
+    \caption{From "A Golden Age of Computers - David Patterson"
+    \cite{patterson19}}
   \end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Problems facing modern compute}
+\frametitle{Problems Facing Modern Compute}
   \framesubtitle{Dennard Scaling has stopped working}
 
   \begin{figure}
@@ -141,7 +143,7 @@ also discussed.
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Problems facing modern compute}
+\frametitle{Problems Facing Modern Compute}
   \framesubtitle{}
   \begin{enumerate}
     \item The free lunch afforded by hardware improvements over years
@@ -177,7 +179,7 @@ also discussed.
 \begin{frame}[fragile]
   \frametitle{Hard-to-solve Problems for Modern Compute}
   \framesubtitle{Example 1}
-  \textbf{Problems involving many peripherals as well as compute}
+  \textbf{Problems involving many peripherals and compute}
 
   For example, \\
 
@@ -186,7 +188,7 @@ also discussed.
   real time needs heavy compute (for OD) and flexible I/O to be able to 
   drive all the motors reliably. \\
 
-  Existing solution would involve using a GPU for ML workload, an
+  Existing solution would involve using a GPU for ML workload, and
   driving the motors from a CPU. A CPU may or may not have as many I/Os
   as required, in which case an I/O expander or an ASIC may have to be set up.
 \end{frame}
@@ -227,6 +229,8 @@ also discussed.
 
   \textbf{Power-efficiency without sacrifices}
 
+  CPUs/GPUs sacrifice power efficiency for generality. 
+
   Unlike general purpose chips, on FPGAs you only get what you need. As a
   result, the overall power efficiency of dedicated hardware tends to be
   higher than general purpose processors. 
@@ -246,7 +250,7 @@ also discussed.
   \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{power.png}
-    \caption{Power Difference b/w CPUs, GPUs, FPGAs, ASICs}
+    \caption{Power difference b/w CPUs, GPUs, FPGAs, ASICs}
     \label{}
   \end{figure}
 
@@ -284,7 +288,7 @@ also discussed.
       \begin{enumerate}
         \item Reconfiguration: The process through which a "reconfigurable
       processor" is re-programmed to implement a new circuit
-        \item Heterogeneity: A system must include processors of different 
+        \item Heterogeneity: The idea that a system must include processors of different 
           capacities/abilities well integrated together.
       \end{enumerate}
 \end{frame}
@@ -312,10 +316,10 @@ also discussed.
 \begin{frame}[fragile]
 \frametitle{Key Problems With Reconfigurable-Heterogenous Computing}
 \framesubtitle{}
-  \begin{enumerate}
-    \item To implement a reconfigurable heterogeneous computer with FPGAs,
+    To implement a reconfigurable heterogeneous computer with FPGAs,
       the problems are two-fold:
-    \item Problem 1: Using FPGAs with traditional softwares are in-convenient.
+  \begin{enumerate}
+    \item Problem 1: Using FPGAs with traditional software is in-convenient.
     \item Problem 2: Writing new hardwares for FPGAs, implementing custom solutions is
       tedious with a very steep learning curve, often times requiring 
       domain expertise.
@@ -326,7 +330,8 @@ also discussed.
 \frametitle{Problem 1: Programming model for FPGAs}
 \framesubtitle{}
   \begin{enumerate}
-    \item GPUs enjoy a concrete and abstract programming model
+    \item GPUs enjoy a concrete (in the sense of coverage) and abstract (in
+      terms of usability) programming model
     \item No true industry grade programming model exists for FPGAs
     \item There's OpenCL support for FPGAs. But that involves treating
       FPGAs like an ASIC.
@@ -355,7 +360,7 @@ also discussed.
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Comparison of a reconfigurable-heterogenous programming model with a Von-Neumann
+  \frametitle{Comparison of a Reconfigurable-Heterogenous Programming Model with a Von-Neumann
   computer}
   \framesubtitle{}
 
@@ -417,7 +422,7 @@ also discussed.
       
     \item Hardwares for a problem are generated by a "Compiler" from a high-level
       specification that describes connection of coarse functions.
-    \item Any coarse hardware can be programmatically be plucked and placed in a
+    \item Any coarse hardware can be programmatically plucked and placed in a
       different setting thanks to the compilers ability to reason with hardware
       connections.
     \item Flow based computer exhibit a more functional approach towards
@@ -428,7 +433,7 @@ also discussed.
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{An exemplary DSL for reconfigurable compute architectures}
+  \frametitle{An Exemplary DSL for Reconfigurable Compute Architectures}
 \framesubtitle{}
   Following is an example of a DSL that allows specification of coarse hardware.
   It provides an interface to define connections b/w hardware, control
@@ -554,9 +559,9 @@ also discussed.
   \begin{columns}
    \begin{column}{0.5\textwidth}
      \begin{enumerate}
-     	\item Every Mux in CLB is Programmable
-	\item Look Up table is configured with LUT Mask from part of  complex expression 
-	\item which internally have Muxes (for 4 input lut - 16:1 Mux can be used )
+     	\item Every mux in a CLB is programmable
+	\item Look Up table is configured with LUT Mask from part of a complex expression 
+	\item Which internally has muxes (for 4 input lut - 16:1 Mux can be used )
      \end{enumerate}
     \end{column}
 % Column 2    
@@ -587,7 +592,7 @@ also discussed.
   \frametitle{FPGA CAD Toolflow: Synthesis/Mapping Via Example}
   \begin{columns}
    \begin{column}{0.5\textwidth}
-     boolean expression:
+     Boolean expression:
     \end{column}
 % Column 2    
    \begin{column}{0.5\textwidth}		
@@ -598,7 +603,7 @@ also discussed.
    \begin{figure}[h]
        \centering
        \includegraphics[width=0.45\linewidth]{images/basic_block.png} 
-       \caption{two bit counter block}
+       \caption{Two bit counter block}
        \label{exa_block}
     \end{figure}
 \end{frame}
@@ -626,7 +631,8 @@ also discussed.
 \begin{frame}[fragile]
   \frametitle{FPGA CAD Toolflow: The Backend}
   \framesubtitle{Placement}
-  Simulated Annealing (industry standard algorithm) to place based on Minimum cost model 
+  Simulated Annealing (industry standard algorithm) is used for placement
+  following a Minimum-cost model. 
   \begin{figure}
     \centering
     \includegraphics[width=0.35\linewidth]{images/Lut_bare.png}
@@ -639,11 +645,12 @@ also discussed.
 \begin{frame}[fragile]
   \frametitle{FPGA CAD Toolflow: The Backend}
   \framesubtitle{Routing}
-  Routing : Interconnect the configurable logic  blocks with minimum timing cost 
+  Routing: Interconnect the configurable logic blocks with minimum timing cost.
+  The Pathfinder algorithm is used traditionally for routing.
   \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{images/switch_matrix.png}
-    \caption{FPGA Interconnect }
+    \caption{FPGA Interconnect}
     \label{exa_interconnect}
   \end{figure}
 \end{frame}
@@ -652,7 +659,7 @@ also discussed.
   \frametitle{FPGA CAD Toolflow: Backend via Example}
   \framesubtitle{Placement, Routing}
 
-  placement and routing for the two-bit counter would be 
+  Placement and Routing for the two-bit counter would be 
 
   \begin{figure}
     \centering
@@ -741,7 +748,7 @@ also discussed.
          \centering
 	 \includegraphics[width=1\linewidth]{images/nextpnr_ecosystem.png}
 	 \hspace*{1pt}\hbox{\scriptsize Credit:\thinspace{\small\itshape Myrtle Shah Orconf 2019}}
-	 \caption{nextpnr eco system}
+	 \caption{nextpnr ecosystem}
 	 \label{exa_nextpnr}
      \end{figure}
 \end{frame}
@@ -773,7 +780,7 @@ also discussed.
 \begin{frame}[fragile]
   \frametitle{Realizing this goal}
   \begin{enumerate}
-    \item Realizing this goal requires designing and implementation from
+    \item Realizing this goal requires design and implementation from
       first principles
     \item To achieve this, we designed our own hardware: Vaaman. 
     \item Vaaman is a reconfigurable heterogenous computer.
@@ -793,18 +800,19 @@ also discussed.
   \begin{figure}
     \centering
     \includegraphics[width=0.95\textwidth]{vaaman.jpg}
-    \caption{Vaaman: A heterogenous SBC}
+    \caption{Vaaman: A heterogenous SBC \\ \url{https://shorturl.at/5y9QA}}
     \label{neuron}
   \end{figure}
+  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{ML Accelerator (Gati)}
   Gati is a set of hardware and software programs that perform CNN
-  acceleration with FPGA as a co-processor.
+  acceleration with FPGA as a co-processor on Vaaman.
   \begin{enumerate}
     \item At the core of Gati is a systolic array pipeline based MAC engine
-    \item The Gati-ISA is a macro-ISA (i.e. implements complex operations directly
+    \item \textcolor{red}{Gati has an ISA}. The Gati-ISA is a macro-ISA (i.e. implements complex operations directly
       like Convolution) instead of breaking them down into primitives
     \item The instructions have almost a one-to-one match with 'layers'
       from a neural network
