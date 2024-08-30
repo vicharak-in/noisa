@@ -185,7 +185,7 @@ also discussed.
 
   An embedded application that uses object detection to find
   objects in a line of sight and responds to it by driving many motors in
-  real time needs heavy compute (for OD) and flexible I/O to be able to 
+  real time needs: 1. heavy compute (for object detectin) and 2. flexible I/O to be able to 
   drive all the motors reliably. \\
 
   Existing solution would involve using a GPU for ML workload, and
@@ -288,7 +288,8 @@ also discussed.
       \begin{enumerate}
         \item Reconfiguration: The process through which a "reconfigurable
       processor" is re-programmed to implement a new circuit
-        \item Heterogeneity: The idea that a system must include processors of different 
+    \item Heterogeneity: The idea that a system must include processors (such as
+      CPUs/GPUs/DSPs/Other ASICs) of different 
           capacities/abilities well integrated together.
       \end{enumerate}
 \end{frame}
@@ -301,7 +302,8 @@ also discussed.
       any circuit. 
     \item Digital circuits consist of gates (that implement logic) and
       connections (that connect gates to each other).
-    \item FPGAs popularly consist of SRAM cells (that implement the
+    \item FPGAs popularly consist of SRAM cells (among other types such as FLASH based/MUX
+      based) (that implement the
       functionality of gates by storing their truth-tables in it) and
       programmable interconnect (implemented via switch boxes) that allow
       connections
@@ -755,7 +757,7 @@ also discussed.
 
 
 \begin{frame}[fragile]
-  \frametitle{Optimization oppurtunity for EDA compilers}
+  \frametitle{Optimization oppurtinities for EDA compilers}
   \framesubtitle{}
   \begin{enumerate}
     \item Our DSL compiler connects hardware together. The mapping phase
@@ -764,8 +766,8 @@ also discussed.
     \item The mapping process involves, among many steps, a phase where it looks
       for a minimal boolean expression. In iterative write-compile-debug loops
       entire hardware may not change frequently so their resulting minimal
-      boolean expressions can be cached and further sped up by performing a
-      look up in this cache instead of searching all over again.
+      boolean expressions history can be saved and revisited for next
+      iterations.
     \item Routing can be designed to make use of GPUs.
   \end{enumerate}
 \end{frame}
@@ -880,7 +882,7 @@ also discussed.
       and development hardware supporting newer peripherals in days not years.
     \item Periplex operates on a JSON-driven configuration that specifies 
       what peripherals are needed and how they should be connected, 
-      generates FPGA bitstream and uploads it the the FPGA.
+      generates FPGA bitstream and uploads it the FPGA.
     \item Periplex accomodates drivers for these peripherals directly into
       the linux kernel so that it can be accessed through linux APIs easily.
   \end{enumerate}
@@ -893,7 +895,7 @@ also discussed.
      \item Peripherals supported by periplex include (more will be added):
        UART, I2C, CAN, WS28128B (LED), GPIO, PWN, SPI, 1-Wire
      \item Periplex brings 'software updates' to peripherals. Addition of new
-       peripherals can be realized into hardware withing minutes. (I3C, I2S,
+       peripherals can be realized into hardware within minutes. (I3C, I2S,
        PCM etc.)
      \item With Periplex, there's no need to buy new special-purpose
        chips/modules.
