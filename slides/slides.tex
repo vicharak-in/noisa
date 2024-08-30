@@ -105,7 +105,7 @@ also discussed.
   \begin{itemize}
     \item Chapter 1 - Motivations for our Work
     \item Chapter 2 - Introduction to Reconfigurable and Heterogeneous Computing
-    \item Chapter 3 - Need for modern EDA compilers
+    \item Chapter 3 - Need for modern EDA Compilers
     \item Chapter 4 - Work Done Towards Implementation  
   \end{itemize}
 \end{frame}
@@ -147,7 +147,7 @@ also discussed.
   \framesubtitle{}
   \begin{enumerate}
     \item The free lunch afforded by hardware improvements over years
-      is coming to an end
+      is coming to an end.
     \item Hardwares are designed first and complying softwares to support
       them after it.
     \item New and creative architectures need to be designed along with the
@@ -160,16 +160,16 @@ also discussed.
 \frametitle{Overview of Modern Compute}
 \framesubtitle{}
   \begin{enumerate}
-    \item An average motherboard has a CPU and optionally a GPU
+    \item An average motherboard has a CPU and optionally a GPU.
     \item In specialized domains, one may find ASICs being used (for e.g., 
-      ML acceleration)
+      ML acceleration).
     \item ASICs are pretty cool (and fast) and solve domain specific problems
       that CPU/GPUs may not be able to solve, but are they for everyone?
     \item For starters, they are expensive to engineer and require a team
-      of expert hardware engineers to be designed and fabricated
+      of expert hardware engineers to be designed and fabricated.
     \item Once that's done, expert systems software engineers are required
       to make the ASIC usable/compatible with the existing operating systems.
-    \item A lot of hardwork, definitely not for everyone.  As a result, ASICs are far and few
+    \item A lot of hardwork, definitely not for everyone.  As a result, ASICs are far and few.
     \item Should modern compute be restricted to CPUs/GPUs and a handful
       of ASICs?
     \item What about the problems where none of existing compute suffices?
@@ -306,11 +306,11 @@ also discussed.
       based) (that implement the
       functionality of gates by storing their truth-tables in it) and
       programmable interconnect (implemented via switch boxes) that allow
-      connections
+      connections.
     \item Circuits for FPGAs are described using Hardware Descriptions Languages
       (HDLs) such as Verilog, VHDL.
     \item High level description of a circuit is compiled into real hardware
-      (i.e. a representation that only uses FPGA primitives) by a "compiler"
+      (i.e. a representation that only uses FPGA primitives) by a "compiler".
   \end{enumerate}
 
 \end{frame}
@@ -333,12 +333,12 @@ also discussed.
 \framesubtitle{}
   \begin{enumerate}
     \item GPUs enjoy a concrete (in the sense of coverage) and abstract (in
-      terms of usability) programming model
-    \item No true industry grade programming model exists for FPGAs
+      terms of usability) programming model.
+    \item No true industry grade programming model exists for FPGAs.
     \item There's OpenCL support for FPGAs. But that involves treating
       FPGAs like an ASIC.
     \item A true programming model for FPGAs would heavily exploit
-      reconfigurability
+      reconfigurability.
   \end{enumerate}
 \end{frame}
 
@@ -398,7 +398,7 @@ also discussed.
   \end{figure}
 
   RAW images flow in, pass through the blocks, being encoded
-  and the process and JPEG compressed images come out
+  and the process and JPEG compressed images come out.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -428,9 +428,9 @@ also discussed.
       different setting thanks to the compilers ability to reason with hardware
       connections.
     \item Flow based computer exhibit a more functional approach towards
-      computation
+      computation.
     \item On a coarser scale, purity of computation is maintained as hardware
-      blocks do not depend on a global state to execute
+      blocks do not depend on a global state to execute.
   \end{enumerate}
 \end{frame}
 
@@ -440,7 +440,7 @@ also discussed.
   Following is an example of a DSL that allows specification of coarse hardware.
   It provides an interface to define connections b/w hardware, control
   reconfiguration (through existing programming constructs (slide 3) and
-  integrate it with existing codebases
+  integrate it with existing codebases.)
 
 \end{frame}
 
@@ -524,7 +524,7 @@ also discussed.
   \centering
   \textbf{Chapter 3} 
   \centering
-  Need for modern EDA compilers
+  Need for modern EDA Compilers
 \end{frame}
 
 \newcommand\myheading[1]{%
@@ -536,8 +536,8 @@ also discussed.
   \frametitle{Problem 2: Writing Hardware Is Hard}
   \framesubtitle{}
   \begin{enumerate}
-    \item Writing HDLs is a tedious task often requiring domain expertise
-    \item EDA tools are propreitary and hard-to-work-with
+    \item Writing HDLs is a tedious task often requiring domain expertise.
+    \item EDA tools are propreitary and hard-to-work-with.
     \item The general problem of compilation of hardwares is NP-Complete but
       there are special cases that can be exploited.
   \end{enumerate}
@@ -561,9 +561,9 @@ also discussed.
   \begin{columns}
    \begin{column}{0.5\textwidth}
      \begin{enumerate}
-     	\item Every mux in a CLB is programmable
-	\item Look Up table is configured with LUT Mask from part of a complex expression 
-	\item Which internally has muxes (for 4 input lut - 16:1 Mux can be used )
+     	\item Every mux in a CLB is programmable.
+	\item Look Up table is configured with LUT Mask from part of a complex expression .
+	\item Which internally has muxes (for 4 input lut - 16:1 Mux can be used).
      \end{enumerate}
     \end{column}
 % Column 2    
@@ -631,7 +631,7 @@ also discussed.
     \begin{enumerate}
       \item Logical synthesis is the process that parses HDL, performs
         technology-agnostic optimisations, and outputs a circuit (netlist)
-        of generic primitives
+        of generic primitives.
       \item Technology Mapping maps generic primitives generated by synthesis to
         FPGA-specific primitives. 
     \end{enumerate}
@@ -760,13 +760,13 @@ also discussed.
   \begin{enumerate}
     \item Groups such as f4pga, YosysHQ and openfpga are trying to create opensource
       alternatives for proprietary CAD tools by reverse engineering FPGAs
-      but are limited by the resources 
+      but are limited by the resources.
     \item Creating Open Software Infrastructure for Hardware (flexibility),
-      which is community-driven 
+      which is community-driven.
     \item Most of the opensource EDA compilers such as yosys, CIRCT, verilator,
       openvaf can't create real hardware. They are limited to
       logical synthesis and simulation.
-     \item vpr\cite{vpr2},nextpnr\cite{nextpnr1} compilers used for placement and routing  
+     \item vpr\cite{vpr2},nextpnr\cite{nextpnr1} compilers used for placement and routing.
   \end{enumerate}
 \end{frame}
 
@@ -783,8 +783,8 @@ also discussed.
         \end{enumerate}
     \myheading{verilator\footnote{\url{https://github.com/verilator/verilator}}}
         \begin{enumerate}
-            \item Compiler that generates Cpp code from Verilog files
-            \item Used extensively for cycle based simualation (supports only 2 states)
+            \item Compiler that generates Cpp code from Verilog files.
+            \item Used extensively for cycle based simualation (supports only 2 states).
             \item Competes with proprietary simulators, community-driven.
         \end{enumerate}
     
@@ -795,17 +795,17 @@ also discussed.
     \frametitle{Compilers in EDA}
     \myheading{CIRCT\footnote{\url{https://circt.llvm.org/}}}
         \begin{enumerate}
-            \item Modular usage of libraries, designs similar to LLVM/MLIR in Hardware  
-            \item \{HLS, sv\} to \{sv, vcd etc\}
-            \item Hardware MLIR  dialects 
-            \item Arcilator used for simulation 
-                \item Cycle based simulation (supports only 2 states)
-            \item Supports only simulation 
+            \item Modular usage of libraries, designs similar to LLVM/MLIR in Hardware  .
+            \item \{HLS, sv\} to \{sv, vcd etc\}.
+            \item Hardware MLIR  dialects.
+            \item Arcilator used for simulation.
+                \item Cycle based simulation (supports only 2 states).
+            \item Supports only simulation.
         \end{enumerate}
     \myheading{openvaf\footnote{\url{https://openvaf.semimod.de/}}}
         \begin{enumerate}
-            \item Verilog-A frontend 
-            \item Uses LLVM and generates a binary file for simulation
+            \item Verilog-A frontend.
+            \item Uses LLVM and generates a binary file for simulation.
         \end{enumerate}
 \end{frame}
 
@@ -813,15 +813,15 @@ also discussed.
    \frametitle{Compilers in EDA}
    \myheading{nextpnr\footnote{\url{https://github.com/YosysHQ/nextpnr}}}
    \begin{enumerate}
-   	\item vendor neutral place and Route tool 
-	\item Community-driven , used to test new CAD algorithms and used as backend opensource solution for proprietary FPGAs 
-	\item such as ProjectXray,ProjectTrellis etc.
+   	\item Vendor neutral place and Route tool.
+	\item Community-driven , used to test new CAD algorithms and used as backend opensource solution for proprietary FPGAs.
+	\item Such as ProjectXray,ProjectTrellis etc.
    \end{enumerate}
 
    \myheading{vpr \footnote{\url{https://docs.verilogtorouting.org/en/latest/vpr/}}}
    \begin{enumerate}
-   	\item place and route Tool 
-	\item extensively used in research exploration of new FPGA architectures and CAD algorithms
+   	\item Place and route Tool 
+	\item Extensively used in research exploration of new FPGA architectures and CAD algorithms
    \end{enumerate}
 \end{frame}
 
@@ -839,7 +839,7 @@ also discussed.
 
 
 \begin{frame}[fragile]
-  \frametitle{Optimization oppurtinities for EDA compilers}
+  \frametitle{Optimization oppurtinities for EDA Compilers}
   \framesubtitle{}
   \begin{enumerate}
     \item Our DSL compiler connects hardware together. The mapping phase
@@ -865,14 +865,14 @@ also discussed.
   \frametitle{Realizing this goal}
   \begin{enumerate}
     \item Realizing this goal requires design and implementation from
-      first principles
+      first principles.
     \item To achieve this, we designed our own hardware: Vaaman. 
     \item Vaaman is a reconfigurable heterogenous computer.
     \item To understand the nature of applications (in the sense of what
       bottlenecks exist and whether or not a certain application would
-      benefit from reconfigurable-heterogenous architecture), projects have been implemented
+      benefit from reconfigurable-heterogenous architecture), projects have been implemented.
     \item These include: Gati (an ML accelerator) and Periplex (a peripheral
-      generator)
+      generator).
     \item Discussion on this work follows:
   \end{enumerate}
   \framesubtitle{}
@@ -895,10 +895,10 @@ also discussed.
   Gati is a set of hardware and software programs that perform CNN
   acceleration with FPGA as a co-processor on Vaaman.
   \begin{enumerate}
-    \item At the core of Gati is a systolic array pipeline based MAC engine
-    \item \textcolor{red}{Gati has an ISA}. The Gati-ISA is a macro-ISA (i.e. implements complex operations directly
+    \item At the core of Gati is a systolic array pipeline based MAC engine.
+    \item \textcolor{red}{Gati has an ISA}. The Gati-ISA is a macro-ISA (i.e. implements complex operations directly.
       like Convolution) instead of breaking them down into primitives
-    \item The instructions have almost a one-to-one match with 'layers'
+    \item The instructions have almost a one-to-one match with 'layers'.
       from a neural network
     \item Assisting this hardware is a Compiler/Runtime.
   \end{enumerate}
@@ -911,13 +911,13 @@ also discussed.
       \begin{enumerate}
         \item Parsing of input data and NN models (protobufs (ONNX) etc.),
           transpositions of kernels to allow contiguous memory access on the 
-          FPGA, and generation
+          FPGA, and generation.
           of a byte stream that can be fed to the FPGA
-        \item Generating custom hardware for every nn model
+        \item Generating custom hardware for every nn model.
       \end{enumerate}
     \item The runtime partitions a network into execute-on-host and
       execute-on-device, re-orders inputs, and offloads computation
-      to the FPGA
+      to the FPGA.
   \end{enumerate}
 \end{frame}
 
@@ -975,10 +975,10 @@ also discussed.
   \framesubtitle{Solution}
   \begin{enumerate}
      \item Peripherals supported by periplex include (more will be added):
-       UART, I2C, CAN, WS28128B (LED), GPIO, PWN, SPI, 1-Wire
+       UART, I2C, CAN, WS28128B (LED), GPIO, PWN, SPI, 1-Wire.
      \item Periplex brings 'software updates' to peripherals. Addition of new
        peripherals can be realized into hardware within minutes. (I3C, I2S,
-       PCM etc.)
+       PCM etc).
      \item With Periplex, there's no need to buy new special-purpose
        chips/modules.
   \end{enumerate}
@@ -996,10 +996,10 @@ also discussed.
       new hardwares in systems can allow existing infrastructure to be used.
     \item Two of the biggest problems with achieving this are a) programming
       model that exploits reconfigurability b) fast and flexible hardware
-      compilers (EDA tools)
+      compilers (EDA tools).
     \item Solutions to problem a) manifest themselves in the form of novel DSLs
       and compiler/runtime toolchains compatible with current
-      toolchain/workflows used by CPUs
+      toolchain/workflows used by CPUs.
     \item Solutions to problem b) involve finding optimization oppurtunities
       to speed up EDA tools, making use of modern parallel hardwares such as
       GPU, and other accelerators.
