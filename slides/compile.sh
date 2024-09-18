@@ -1,4 +1,4 @@
-pdflatex slides.tex
-bibtex slides
-pdflatex slides.tex
-pdflatex slides.tex
+pdflatex slides_trimmed.tex
+bibtex slides_trimmed
+pdflatex slides_trimmed.tex
+pdflatex slides_trimmed.tex
