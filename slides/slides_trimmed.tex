@@ -3,7 +3,7 @@
 
 \documentclass{beamer}
 %\usetheme{Default}
-\usepackage{verbatim,subcaption}
+\usepackage{verbatim,subcaption,listings}
 \usepackage[format=plain]{caption}
 
 \iffalse 
@@ -57,6 +57,14 @@ Neumann bottleneck. Opportunities to improve existing compilers (EDA Software) f
 reconfigurable chips (FPGAs) are also discussed.
 \fi
 
+\lstset{language=C++, basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                tabsize=1,breaklines=true,numbers=left,
+                morecomment=[l][\color{magenta}]{\#}}
+
+
 \title{No-ISA is the Best ISA}
 \subtitle{}
 \author{Shreeyash Pandey, Rishik Ram Jallarapu}
@@ -88,13 +96,12 @@ reconfigurable chips (FPGAs) are also discussed.
 \begin{frame}[fragile]
 \frametitle{About us}
 
-  Vicharak was founded with the idea: to introduce software-level
-  reconfigurability to the hardware world with real parallel machines to enhance
-  computing. 
-
-  Our \textbf{goal} is to create consumer and industrial
-  computing hardware, as well as an entirely new kind of computing ecosystem
-  that can sit on your desk, rest in your palm, or exist in the cloud. 
+  Goals:
+  \begin{itemize}
+    \item Introduce software-level reconfigurability to hardwares
+    \item Consumer and Industrial computing hardware and a new kind of 
+      computing ecosystem that can sit on your desk, rest in your palm, or exist in the cloud. 
+  \end{itemize}
 
   For such an ambitious goal, Vicharak is ready to work on every vertical with
   a team of \~{}50 passionate engineers and thinkers deeply entrenched to make this
@@ -266,7 +273,7 @@ reconfigurable chips (FPGAs) are also discussed.
   \framesubtitle{}
   \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{images/flow.png}
+    \includegraphics[width=1.0\textwidth]{images/flow.png}
     \caption{a) A Von-Neumann Computer b) A Flowing Reconfigurable Computer}
     \label{}
   \end{figure}
@@ -282,7 +289,7 @@ reconfigurable chips (FPGAs) are also discussed.
       
     \item Data flows in and out of the chip transformed. 
 
-    \item No instructions -> No ISA!
+    \item No instructions $\implies$ No ISA!
 
     \item "What to do with data" is a part of the hardware
   \end{itemize}
@@ -291,22 +298,34 @@ reconfigurable chips (FPGAs) are also discussed.
 \begin{frame}[fragile]
   \frametitle{An exemplary DSL for reconfigurable compute architectures}
 \framesubtitle{}
-  \begin{verbatim}
-    Base *cam_in = new CameraCore("MIPI0", "cam1");
-    Base *proc_one = new JPEGEncoderTillDct(input, 
-                          "jpeg_encoder");
-    *proc_one = cam_in;
-    Base *proc_two = new MlEngineCore(input, "ml_core");
-    *proc_two = proc_one;
-    Base *display_out = new PeripheralGen(proc_one, 
-      l                   "LVDS", "out1");
-    *display_out = proc_two;
-    Model m2 = new Model(cam_in, display_out);
-  \end{verbatim}
+  \begin{lstlisting}
+    Base *input = new TensorSend("ts");
+    Base *proc_one = new JPEGEncoderTillDct(input, "jpeg_encoder");
+    Base *proc_two = new MlEngineCore(proc_one, "ml_core");
+    Base *output = new TensorReceive(proc_two, "tr");
+    Model m1 = new Model(input, output);
+  \end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{An exemplary DSL for reconfigurable compute architectures (2)}
+\framesubtitle{}
+  \begin{lstlisting}
+    m1->compute(input);
+    if (some_user_defined_condition(m1->output())) {
+      m2->compute(m1->output());
+    } else {
+      return m1->out();
+    }
+  \end{lstlisting}
+  \texttt{model->compute} is the function that triggers generation, flashing and
+  computation on a hardware described by a Model.
+
+  The code above demonstrates \textit{conditional reconfiguration}.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{An exemplary DSL for reconfigurable compute architectures (3)}
 \framesubtitle{Continue}
    \begin{figure}
         \centering
@@ -315,22 +334,6 @@ reconfigurable chips (FPGAs) are also discussed.
     \end{figure}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{An exemplary DSL for reconfigurable compute architectures (3)}
-\framesubtitle{}
-  \begin{verbatim}
-    m1->compute(input);
-    if (some_user_defined_condition(m1->output())) {
-      m2->compute(m1->output());
-    } else {
-      return m1->out();
-    }
-\end{verbatim}
-  \texttt{model->compute} is the function that triggers generation, flashing and
-  computation on a hardware described by a Model.
-
-  The code above demonstrates \textit{conditional reconfiguration}.
-\end{frame}
 
 \begin{frame}[c,fragile]
   \frametitle{}
@@ -368,7 +371,7 @@ reconfigurable chips (FPGAs) are also discussed.
   \framesubtitle{}
    \begin{figure}
         \centering
-        \includegraphics[width=1\linewidth]{images/images/cad_flow.png}
+        \includegraphics[width=1\linewidth]{images/cad_flow.png}
         \caption{FPGA CAD Tool Flow}
         \label{exa_cadflow}
     \end{figure}
@@ -452,58 +455,28 @@ reconfigurable chips (FPGAs) are also discussed.
   acceleration with FPGA as a co-processor on Vaaman.
 \item Gati accelerates MAC operations with a Systolic-Array based MAC engine,
   and handles control flow with a macro-ISA.
-    \item Assisting this hardware is a Compiler/Runtime.
+    \item Compiler parses protobufs, performs transpositions, and generates
+      instructions for execution. It can also generate custom hardware for
+      each model.
+    \item The runtime partitions a network into execute-on-host and
+      execute-on-device, re-orders inputs, and offloads computation
+      to the FPGA.
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{ML Accelerator (Gati)}
-  \begin{enumerate}
-    \item The compiler does two primary things:
-      \begin{enumerate}
-        \item Parsing of input data and NN models (protobufs (ONNX) etc.),
-          transpositions of kernels to allow contiguous memory access on the 
-          FPGA, and generation.
-          of a byte stream that can be fed to the FPGA
-        \item Generating custom hardware for every nn model.
-      \end{enumerate}
-    \item The runtime partitions a network into execute-on-host and
-      execute-on-device, re-orders inputs, and offloads computation
-      to the FPGA.
-  \end{enumerate}
-\end{frame}
-
-\begin{frame}[fragile]
   \frametitle{Periplex - On-the-Fly Peripheral Generation}
-  \framesubtitle{Problem}
-  \begin{enumerate}
+  \begin{itemize}
     \item Hardware peripherals are limited by fabrication at the ASIC level or
       in MCUs and MPUs.
-    \item The world is moving towards more complex combinations of physical
-      peripherals, instead of just (2 UARTs, 4 SPI, etc.).
-    \item Due to ASIC manufacturing costs and time, the hardware peripherals’
-      average innovation/scale period from concept to fabricated chip and to
-      consumers is around 2-3 years.
     \item Emerging embedded industries like drones, autonomous
-  vehicles,industrial gateways, robotics require more hardware peripheral
+  vehicles, industrial gateways, robotics require more hardware peripheral
   accessibility and innovation due to real-time operations.
-  \end{enumerate}
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Periplex - On-the-Fly Peripheral Generation}
-  \framesubtitle{Solution}
-  \begin{enumerate}
     \item Periplex allows software-defined generation of peripherals on
-      reconfigurable hardware (FPGAs) which allows rapid prototyping
-      and development hardware supporting newer peripherals in days not years.
-    \item Periplex operates on a JSON-driven configuration that specifies 
-      what peripherals are needed and how they should be connected, 
-      generates FPGA bitstream and uploads it the FPGA.
-    \item Periplex accomodates drivers for these peripherals directly into
-      the linux kernel so that it can be accessed through linux APIs easily.
-  \end{enumerate}
+      reconfigurable hardware (FPGAs) with JSON-driven configuration and
+      integrated drivers directly in the linux kernel so they can be
+      accessed easily.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -526,6 +499,24 @@ reconfigurable chips (FPGAs) are also discussed.
       to speed up EDA tools, making use of modern parallel hardwares such as
       GPU, and other accelerators.
   \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{}
+  \framesubtitle{}
+
+  Extended slides and more stuff: 
+
+  \begin{verbatim}
+  github.com/vicharak-in/noisa
+  \end{verbatim}
+
+  We are hiring! Email us at: 
+
+  \begin{verbatim}
+  join-the-team@vicharak.in
+  \end{verbatim}
+
 \end{frame}
 
 }
