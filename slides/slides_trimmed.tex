@@ -99,13 +99,10 @@ reconfigurable chips (FPGAs) are also discussed.
   Goals:
   \begin{itemize}
     \item Introduce software-level reconfigurability to hardwares
-    \item Consumer and Industrial computing hardware and a new kind of 
-      computing ecosystem that can sit on your desk, rest in your palm, or exist in the cloud. 
+    \item Develop consumer and industrial computing hardware for a new ecosystem: desktop, mobile, and cloud-compatible
   \end{itemize}
 
-  For such an ambitious goal, Vicharak is ready to work on every vertical with
-  a team of \~{}50 passionate engineers and thinkers deeply entrenched to make this
-  vision a reality.
+Vicharak's team of ~50 engineers and thinkers is committed to realizing this vision across all verticals.
 
   - Akshar Vastarpara (Founder and CEO, Vicharak)
 
@@ -133,72 +130,54 @@ reconfigurable chips (FPGAs) are also discussed.
 
 \begin{frame}[fragile]
 \frametitle{Problems Facing Modern Compute}
-  \framesubtitle{Moore's law}
-
   \begin{figure}
     \centering
-    \includegraphics[width=0.85\textwidth]{images/mooreslaw.png}
-    \caption{From "A Golden Age of Computers - David Patterson"
-    \cite{patterson19}}
-  \end{figure}
-
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Problems Facing Modern Compute}
-  \framesubtitle{Dennard Scaling}
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.85\textwidth]{images/dennardscaling.png}
-    \caption{From "A Golden Age of Computers - David Patterson"}
-  \end{figure}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Problems Facing Modern Compute}
-  \framesubtitle{Von Neumann Bottleneck}
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.85\textwidth]{images/vonneumann.png}
-  \end{figure}
+    \begin{minipage}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/mooreslaw.png}
+        \caption{Moores Law Slowdown}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/dennardscaling.png}
+        \caption{End of Dennard Scaling}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/vonneumann.png}
+        \caption{Von-Neumann Bottleneck}
+    \end{minipage}
+\end{figure}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Overview of Modern Compute}
 \framesubtitle{}
-  \begin{itemize}
-    \item ASICs are expensive to engineer, CPUs are slow, GPUs
-      are power hungry and inflexible
-    \item Should modern compute be restricted to CPUs/GPUs and a handful
-      of ASICs?
-    \item Following are four instances where existing compute falls short:
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Hard-to-Solve Problems for Modern Compute}
-\framesubtitle{}
-  \begin{itemize}
-    \item Problems involving many peripherals and real-time compute
-    \item Unusual Representation of Numbers (In contrast to fixed width) 
-      (quantization for neural networks)
-    \item New architectures/solutions for old problems (KANs)
-    \item Power effiecient and flexible
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Problems Facing Modern Compute}
-  \framesubtitle{}
+\begin{itemize}
+\item Processor trade-offs: ASICs (high upfront costs), CPUs (performance limitations), GPUs (power-hungry, less flexible)
+\item Question: Should modern compute be limited to CPUs/GPUs and select ASICs?
+\item Four scenarios where current compute falls short:
   \begin{enumerate}
+    \item Many peripherals with real-time compute needs
+    \item Unusual number representations (e.g., neural network quantization)
+    \item Novel architectures for existing problems (e.g., KANs)
+    \item Power-efficient yet flexible solutions
+  \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{How to deal with this?}
+  \framesubtitle{}
+  \begin{itemize}
     \item The free lunch afforded by hardware improvements over years
       is coming to an end.
     \item New, creative, first-principles architectures and
-      compute infrastrucutre need to be designed along with the
+      compute infrastructure need to be designed along with the
       software abstractions to use them. 
-  \end{enumerate}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[c,fragile]
@@ -213,29 +192,17 @@ reconfigurable chips (FPGAs) are also discussed.
 \begin{frame}[fragile]
   \frametitle{Setting the stage}
   \framesubtitle{}
-    Two key ideas:
-      \begin{enumerate}
-        \item Reconfiguration: The process through which a "reconfigurable
-      processor" is re-programmed to implement a new circuit. Reconfiguration
-          can be achieved by using circuits such as FPGAs.
-    \item Heterogeneity: The idea that a system must include processors (such as
-      CPUs/GPUs/DSPs/Other ASICs) of different 
-          capacities/abilities well integrated together. Heterogeneity promotes
-    \textcolor{green}{complementing} existing compute instead of
-          \textcolor{red}{replacing}.
-      \end{enumerate}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Key Problems With Reconfigurable-Heterogenous Computing}
-\framesubtitle{}
-    To implement a reconfigurable heterogeneous computer with FPGAs,
-      the problems are two-fold:
+Key concepts:
   \begin{enumerate}
-    \item Problem 1: Using FPGAs with traditional software is in-convenient.
-    \item Problem 2: Writing new hardwares for FPGAs, implementing custom solutions is
-      tedious with a very steep learning curve, often times requiring 
-      domain expertise.
+    \item Reconfiguration: Reprogramming to implement new circuits (e.g., FPGAs)
+    \item Heterogeneity: Integrating diverse processors (CPUs/GPUs/DSPs/ASICs) to
+  \textcolor{green}{complement} rather than \textcolor{red}{replace} existing compute
+  \end{enumerate}
+
+Challenges:
+  \begin{enumerate}
+    \item FPGA integration with traditional software is cumbersome
+    \item Custom FPGA hardware development has a steep learning curve
   \end{enumerate}
 \end{frame}
 
@@ -256,20 +223,20 @@ reconfigurable chips (FPGAs) are also discussed.
 
 \end{frame}
 
-
 \begin{frame}[fragile]
 \frametitle{Problem 1: Programming model for FPGAs}
 \framesubtitle{}
-  \begin{enumerate}
-    \item A true programming model for FPGAs would heavily exploit
-      reconfigurability.
-    \item We introduce a non-Von Neumann flow-based reconfigurable architecture and a programming model
-      for it.
-  \end{enumerate}
+  A true programming model for FPGAs would heavily exploit reconfigurability.
+
+Proposal: Non-Von Neumann, flow-based reconfigurable architecture
+  \begin{itemize}
+    \item No instructions or ISA
+    \item Data flows through the chip, transformed by configured hardware
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Comparison}
+  \frametitle{Comparison with a Von-Neumann Computer}
   \framesubtitle{}
   \begin{figure}
     \centering
@@ -277,22 +244,6 @@ reconfigurable chips (FPGAs) are also discussed.
     \caption{a) A Von-Neumann Computer b) A Flowing Reconfigurable Computer}
     \label{}
   \end{figure}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Differences}
-  \framesubtitle{}
-
-  \begin{itemize}
-    \item There are \textcolor{red}{no instructions} as the hardware
-  is configured to a desired operation. 
-      
-    \item Data flows in and out of the chip transformed. 
-
-    \item No instructions $\implies$ No ISA!
-
-    \item "What to do with data" is a part of the hardware
-  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -304,28 +255,12 @@ reconfigurable chips (FPGAs) are also discussed.
     Base *proc_two = new MlEngineCore(proc_one, "ml_core");
     Base *output = new TensorReceive(proc_two, "tr");
     Model m1 = new Model(input, output);
+    m1->compute(input);
   \end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{An exemplary DSL for reconfigurable compute architectures (2)}
-\framesubtitle{}
-  \begin{lstlisting}
-    m1->compute(input);
-    if (some_user_defined_condition(m1->output())) {
-      m2->compute(m1->output());
-    } else {
-      return m1->out();
-    }
-  \end{lstlisting}
-  \texttt{model->compute} is the function that triggers generation, flashing and
-  computation on a hardware described by a Model.
-
-  The code above demonstrates \textit{conditional reconfiguration}.
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{An exemplary DSL for reconfigurable compute architectures (3)}
 \framesubtitle{Continue}
    \begin{figure}
         \centering
@@ -352,18 +287,12 @@ reconfigurable chips (FPGAs) are also discussed.
 \begin{frame}[fragile]
   \frametitle{Problem 2: Writing Hardware Is Hard}
   \framesubtitle{}
-  \begin{enumerate}
-    \item Hardwares are written using HDLs like Verilog/VHDL
-    \item Problems can be categorized as those above HDL level and those below
-    \item Problems above HDL are solved by new tools and frameworks that
-      such HDL wrappers (SpinalHDL, Chisel etc), High-Level Synthesis tools
-      (name them), simulators/verifiers (verilator, CIRCT etc.)
-    \item We are particularly interested in solving problems below HDLs.
-
-    \item EDA tools are propreitary and hard-to-work-with.
-    \item The general problem of compilation of hardwares is NP-Complete but
-      there are special cases that can be exploited.
-  \end{enumerate}
+Current state:
+  \begin{itemize}
+\item Proprietary tools and architectures
+\item NP-Hard and NP-Complete problems in the flow
+\item Gap between CAD research and production-ready tools
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -392,30 +321,14 @@ reconfigurable chips (FPGAs) are also discussed.
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{The Current State of EDA tools}
-  \framesubtitle{}
-  \begin{enumerate}
-    \item Like the FPGA architectures, tools to work with them are propreitary.
-    \item Problems and sub-problems in the flow are ridden with NP-Hard and
-      NP-Complete problems.
-    \item There is a gap between CAD research and production ready CAD tools.
-  \end{enumerate}
-\end{frame}
-
-\begin{frame}[fragile]
   \frametitle{Optimization Opportunities for EDA Compilers}
   \framesubtitle{}
-  \begin{enumerate}
-    \item Our DSL compiler connects hardware together. The mapping phase
-      of hardware generation can be completely bypassed if The compiler can
-      be designed to operate on netlists directly instead of verilog.
-    \item The mapping process involves, among many steps, a phase where it looks
-      for a minimal boolean expression. In iterative write-compile-debug loops
-      entire hardware may not change frequently so their resulting minimal
-      boolean expressions history can be saved and revisited for next
-      iterations.
-    \item Routing can be designed to make use of GPUs.
-  \end{enumerate}
+Optimization opportunities:
+  \begin{itemize}
+\item Direct netlist operations in DSL compiler
+\item Caching optimzations for faster incremental compilation
+\item GPU-accelerated routing
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[c,fragile]
@@ -427,11 +340,11 @@ reconfigurable chips (FPGAs) are also discussed.
 
 \begin{frame}[fragile]
   \frametitle{Realizing this goal}
+  Vaaman: A reconfigurable heterogeneous single board computer (SBC)
   \begin{enumerate}
-    \item Realizing this goal requires design and implementation from
-      first principles.
-    \item To achieve this, we designed our own hardware: Vaaman. 
-    \item Vaaman is a reconfigurable heterogenous computer.
+\item Custom-designed hardware
+\item Integrates FPGA for reconfigurability
+\item Heterogeneous as it integrates CPU with FPGA
   \end{enumerate}
   \framesubtitle{}
 \end{frame}
@@ -449,55 +362,32 @@ reconfigurable chips (FPGAs) are also discussed.
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{ML Accelerator (Gati)}
+  \frametitle{Features}
   \begin{itemize}
-    \item Gati is a set of hardware and software programs that perform CNN
-  acceleration with FPGA as a co-processor on Vaaman.
-\item Gati accelerates MAC operations with a Systolic-Array based MAC engine,
-  and handles control flow with a macro-ISA.
-    \item Compiler parses protobufs, performs transpositions, and generates
-      instructions for execution. It can also generate custom hardware for
-      each model.
-    \item The runtime partitions a network into execute-on-host and
-      execute-on-device, re-orders inputs, and offloads computation
-      to the FPGA.
-  \end{itemize}
-\end{frame}
+    \item \textbf{Gati: CNN accelerator using FPGA as co-processor}
+      \begin{enumerate}
+        \item Systolic-Array based MAC engine
+        \item Macro-ISA for control flow
+        \item Compiler and runtime for model partitioning and execution
+      \end{enumerate}
 
-\begin{frame}[fragile]
-  \frametitle{Periplex - On-the-Fly Peripheral Generation}
-  \begin{itemize}
-    \item Hardware peripherals are limited by fabrication at the ASIC level or
-      in MCUs and MPUs.
-    \item Emerging embedded industries like drones, autonomous
-  vehicles, industrial gateways, robotics require more hardware peripheral
-  accessibility and innovation due to real-time operations.
-    \item Periplex allows software-defined generation of peripherals on
-      reconfigurable hardware (FPGAs) with JSON-driven configuration and
-      integrated drivers directly in the linux kernel so they can be
-      accessed easily.
-  \end{itemize}
+    \item \textbf{Periplex: On-the-fly peripheral generation}
+      \begin{enumerate}
+        \item Software-defined peripherals on FPGAs
+        \item JSON-driven configuration
+        \item Linux kernel driver integration
+      \end{enumerate}
+      \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Conclusion}
   \framesubtitle{}
-
   \begin{enumerate}
-    \item Reconfigurable architectures can provide a way to solve many problems
-      that existing compute struggle with and help alleviate the von-neumann
-      bottleneck.
-    \item Heterogenous approach of assisting instead of replacing integration of
-      new hardwares in systems can allow existing infrastructure to be used.
-    \item Two of the biggest problems with achieving this are a) programming
-      model that exploits reconfigurability b) fast and flexible hardware
-      compilers (EDA tools).
-    \item Solutions to problem a) manifest themselves in the form of novel DSLs
-      and compiler/runtime toolchains compatible with current
-      toolchain/workflows used by CPUs.
-    \item Solutions to problem b) involve finding optimization oppurtunities
-      to speed up EDA tools, making use of modern parallel hardwares such as
-      GPU, and other accelerators.
+    \item Reconfigurable architectures address von Neumann bottleneck and modern compute challenges
+    \item Heterogeneous approach enables integration with existing infrastructure
+    \item Key challenges: developing reconfigurability-focused programming models and efficient hardware compilers
+    \item Solutions include novel DSLs, optimized EDA tools, and GPU acceleration
   \end{enumerate}
 \end{frame}
 
